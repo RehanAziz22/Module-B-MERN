@@ -62,6 +62,8 @@ for (let i = 0; i < key.length; i++) {
 
 function check() {
   model.disabled = false;
+  let button = document.getElementById("button")
+  button.disabled = false;
   let nestedKeys = Object.keys(mobiles[mobileName.value]);
   for (let i = 0; i < nestedKeys.length; i++) {
     model.innerHTML == "";
@@ -72,4 +74,6 @@ function check() {
 function search(){
   let res = mobiles[mobileName.value][model.value]
   console.log(res)
+  let show_output = document.getElementById("show_output");
+  show_output.innerHTML += Object.entries(res)  
 }
