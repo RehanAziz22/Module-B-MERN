@@ -54,8 +54,9 @@ function App() {
   const [indexNumber, setIndexNumber] = useState(0)
   const [score, setScore] = useState(0)
   const [result, setResult] = useState(false)
+  const [showQuestions, setShowQuestions] = useState(false)
   const [seconds, setSeconds] = useState(59)
-  const [minutes, setMinutes] = useState(1)
+  const [minutes, setMinutes] = useState(0)
 
   let timer;
   // --------------- timer
@@ -74,8 +75,10 @@ function App() {
 
   let start = () => {
     setSeconds(59)
-    setMinutes(1)
-    
+    setMinutes(0)
+    setShowQuestions(true)
+
+
   }
 
   let stop = () => {
@@ -84,8 +87,10 @@ function App() {
 
   useEffect(() => {
 
-    if (minutes === 0 && seconds === 0)
+    if (minutes === 0 && seconds === 0) {
       stop()
+      setResult(true)
+    }
   })
   // ---------------------- check Q
   let checkQuestion = (a, b) => {
@@ -98,41 +103,36 @@ function App() {
     else {
       setIndexNumber(indexNumber + 1)
     }
-  }
+  };
 
 
   return (
     <div className="App">
       <header className="App-header">
-
         <Typography varient="h1" sx={{ color: "black", fontSize: "30px", fontWeight: "bold" }} >
           QUIZ APP</Typography>
-        {/* {setResult?<div><h1>your percentage is {(score/questions.length)*100}</h1></div>:<Box> */}
         {/* ---------------------start box */}
-        <Box sx={{ background: "white", color: "black", border: "3px solid", padding: "10px" }}>
-          <Typography varient="h5" >
-            Click on start button to start Quiz
-          </Typography>
-          <Button onClick={start} >start</Button>
-        </Box>
-        {/* ----------------------Quiz box */}
-            <Box sx={{ background: "white", color: "black", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", border: "3px solid", padding: "20px" }}>
-        <Box>
-              <Box sx={{ display: "flex", justifyContent: "space-between", margin: "2px 0px 10px" }}>
+        {showQuestions? 
+         (result ? <h1>your percentage is {(score / questions.length) * 100}</h1> :
+          <Box sx={{ background: "white", color: "black", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", border: "3px solid", padding: "20px" }}>
+            <Box sx={{ padding: 1 }}>
+              <Box sx={{ display: "flex", justifyContent: "space-between", margin: "2px 0px 10px", padding: 1 }}>
                 <Typography varient="h6" sx={{ color: "black" }} >
                   Questions #{indexNumber + 1}/{questions.length}
-                </Typography>
-                <Typography varient="h6" sx={{ color: "black" }} >
-                  {(score / questions.length) * 100}
                 </Typography>
                 <Typography varient="h6" sx={{ color: "black" }} >
                   {minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}
                 </Typography>
               </Box>
+
+              {/* -------------------------Questions */}
+              <Typography variant="h5">
+                {questions[indexNumber].question}
+              </Typography>
             </Box>
-            <Typography variant="h5" >
-              {questions[indexNumber].question}
-            </Typography>
+
+            {/* -------------------------Options */}
+
             <Box>
               <Grid container sx={{ display: "flex", justifyContent: "center", flexDirection: "column", margin: "5px 0px" }}>
                 {questions[indexNumber].options.map((e, i) => (<Grid item key={i} md={6}>
@@ -140,10 +140,19 @@ function App() {
                 </Grid>))}
               </Grid>
             </Box>
-          </Box>
-        {/* </Box>} */}
+          </Box>)
+        // {/* ----------------------Quiz box */}
+        
+        :
+        (<Box sx={{ background: "white", color: "black", border: "3px solid", padding: "10px" }}>
+          <Typography varient="h5" >
+            Click on start button to start Quiz
+          </Typography>
+          <Button onClick={start} >start</Button>
+        </Box>)
+          }
       </header>
-    </div >
+    </div>
   );
 }
 
