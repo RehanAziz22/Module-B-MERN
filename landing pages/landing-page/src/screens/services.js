@@ -9,7 +9,7 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 import maths from "../undraw_mathematics_4otb.png"
 import bio from "../undraw_medical_research_qg4d.png"
 import chemistry from "../undraw_Science_re_mnnr.png"
-import physics from "../undraw_mathematics_4otb.png"
+import physics from "../undraw_Teaching_re_g7e3.png"
 import english from "../undraw_Books_re_8gea.png"
 import computer from "../undraw_Code_thinking_re_gka2.png"
 import history from "../undraw_in_thought_re_qyxl.png"
@@ -62,7 +62,7 @@ function Services() {
     ])
 
     return <>
-        <Container sx={{ maxWidth: "90%", backgroundColor: "white", height: "300px", margin: "20px auto", display:"flex",justifyContent:"center",alignItems:"center",boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;" }}>
+        <Container sx={{marginTop:"100px", maxWidth: "90%", backgroundColor: "white", height: "300px", margin: "20px auto", display:"flex",justifyContent:"center",alignItems:"center",boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;" }}>
             <h1 style={{ fontSize:"50px",color: "blue",fontFamily:"fantasy", textTransform: "uppercase", fontWeight: "bold" }}>Courses We Offer!</h1>
         </Container>
         <Container>

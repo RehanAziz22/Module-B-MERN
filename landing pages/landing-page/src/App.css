@@ -9,11 +9,14 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.my-navbar{
+  z-index: 1;
+}
 
 .navLinks{
   text-decoration: none !important;
-  color: white;
-  margin: 0px 10px;
+  color: white !important;
+  margin: 0px 10px ;
 }
 
 .toggle-btn{
@@ -36,10 +39,18 @@
     
   }
   .navLinks{
-    margin: 10px 0px !important;
+    /* margin: 10px 0px !important; */
+    text-align: center;
+    color: #000 !important;
   }
   .toggle-btn{
     display: inline-block !important;
     color: white !important;
+  }
+  .conLeft{
+    display: none !important;
+  }
+  .conRight{
+    width: 100% !important;
   }
 }
