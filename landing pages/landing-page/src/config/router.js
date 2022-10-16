@@ -10,6 +10,7 @@ import Home from "../screens/home";
 import Services from "../screens/services";
 import Dashboard from "../screens/dashboard";
 import NotFound from "../screens/notfound";
+import CardDetails from "../screens/cardDetails";
 
 export default function AppRouter() {
     return (
@@ -22,6 +23,7 @@ export default function AppRouter() {
                 <Route path="services" element={<Services />} />
                 <Route path="contact" element={<Contact />} />
                 <Route path="dashboard/*" element={<Dashboard />} />
+                <Route path="cardDetails/*" element={<CardDetails />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>

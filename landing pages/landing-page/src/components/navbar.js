@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -13,7 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Container } from '@mui/system';
 
 const drawerWidth = 240;
@@ -22,25 +24,26 @@ const drawerWidth = 240;
 function Navbar(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    let navigate = useNavigate()
     const [navItems, setNaveItems] = React.useState([{
         path: "/",
-        name: "Home"
+        name: "Home",icon: () => <InboxIcon />
     },
     {
         path: "about",
-        name: "About"
+        name: "About",icon: () => <InboxIcon />
     },
     {
         path: "services",
-        name: "Services"
+        name: "Services",icon: () => <InboxIcon />
     },
     {
         path: "contact",
-        name: "Contact"
+        name: "Contact",icon: () => <InboxIcon />
     },
     {
         path: "dashboard",
-        name: "Dashboard"
+        name: "Dashboard",icon: () => <InboxIcon />
     }])
 
     const handleDrawerToggle = () => {
@@ -49,28 +52,24 @@ function Navbar(props) {
 
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-            <Typography variant="h6" sx={{ my: 2 }}>
-                TUTOR'S
+           <Typography variant="h6" sx={{ my: 2 }}>
+                FAKE STORE
             </Typography>
             <Divider />
-            <List>
-                {navItems.map((item, i) => (
-                    <ListItem key={i} disablePadding>
-                        <ListItemButton sx={{ textAlign: 'center', justifyContent: "center" }}>
-                            <Link key={i} className="navLinks" to={item.path} sx={{ color: '#000' }}>
-                                {item.name}
-                            </Link>
-
+                    <List sx={{ display: { xs: 'block', sm: 'none' } }}>
+                        {navItems.map((item, i) => (
+                            <ListItem key={i} disablePadding>
+                        <ListItemButton onClick={() => {
+                            navigate(item.path)
+                        }}>
+                            <ListItemIcon>
+                                {item.icon()}
+                            </ListItemIcon>
+                            <ListItemText primary={item.name} />
                         </ListItemButton>
                     </ListItem>
-                ))}
-                <Container sx={{display:"flex",flexDirection:"column"}}>
-
-                    <Link style={{ margin: "5px 0px" }} to='dashboard/message'>Message</Link>
-                    <Link style={{ margin: "5px 0px" }} to='dashboard/feedback'>Feedback</Link>
-                    <Link style={{ margin: "5px 0px" }} to='dashboard/notification'>Notification</Link>
-                </Container>
-            </List>
+                        ))}
+                    </List>
         </Box>
     );
 
@@ -94,7 +93,7 @@ function Navbar(props) {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
-                        TUTOR'S
+                        FAKE STORE
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item, i) => (

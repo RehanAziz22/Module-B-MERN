@@ -9,7 +9,7 @@ function Home() {
      >
         <Grid container sx={{display:"flex", justifyContent:"center",alignItems:"center",minHeight:"500px"}}>
             <Grid item md="6" sm="12" xs="12">
-                <h1 style={{fontSize:"50px",color: "blue",fontFamily:"fantasy", textTransform: "uppercase", fontWeight: "bold"}}>Welcome to Tutor's Academy</h1>
+                <h1 style={{fontSize:"50px",color: "blue",fontFamily:"inherit", textTransform: "uppercase", fontWeight: "bold"}}>GET THE BEST PRODUCTS !</h1>
             </Grid>
             <Grid item md="6" sm="12" xs="12">
             <img 
