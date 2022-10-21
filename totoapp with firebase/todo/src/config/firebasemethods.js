@@ -13,7 +13,8 @@ let signUpUser = (obj) => {
                 // user successfully registered
                 const user = userCredential;
                 const refrence = ref(database, `users/${user.uid}`);
-                push(refrence, obj).then(() => { resolve("user created succesfully") }).catch((errr) => { reject(errr) })
+                const postref = push(refrence)
+                set(postref, obj).then(() => { resolve("user created succesfully") }).catch((errr) => { reject(errr) })
             })
             .catch((err) => { reject(err) })
     })
@@ -50,4 +51,5 @@ let loginUser = (obj) => {
     })
 
 };
+
 export { signUpUser, loginUser };

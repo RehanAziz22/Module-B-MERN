@@ -1,18 +1,17 @@
 .App {
   text-align: center;
-  background-color: #282c34;
+  /* background-image :linear-gradient(to left #AA44B1,#F3429A); */
+  background-image: linear-gradient(to right, #F3429A , #AA44B1);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   color: white;
 }
 
 .homeApp{
-  background-color: #282c34;
-  background-image: url(https://venngage-wordpress.s3.amazonaws.com/uploads/2018/09/Beautiful-Stars-Landscape-Background-Image-.jpeg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

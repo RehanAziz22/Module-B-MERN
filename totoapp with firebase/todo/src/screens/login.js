@@ -22,16 +22,22 @@ function Login() {
 
     }
     return (
-        <Container>
-            <h1>Login</h1>
+        <Container sx={{marginTop:"100px"}}>
             <Box sx={{
-                width: { xs: "100%", sm: "80%", md: "50%" },
-                display: "flex", padding: "10px", backgroundColor: "wheat", flexDirection: "column", margin: "10px auto", alignItems: "center", border: "1px solid", borderRadius: "10px", justifyContent: "space-between", minHeight: "220px"
+                width: { sm: "80%", md: "50%", lg:"40%" },
+                display: "flex", padding: "20px", backgroundColor: "white", flexDirection: "column", margin: "10px auto", alignItems: "center", border: "1px solid", borderRadius: "10px", justifyContent: "space-between", minHeight: "220px"
             }}>
-                <TextField onChange={(e) => { setEmail(e.target.value) }} fullWidth id="outlined-basic" label="Email" variant="outlined" type="email" />
-                <TextField onChange={(e) => { setPassword(e.target.value) }} fullWidth id="outlined-basic" label="Password" variant="outlined" type="password" />
-                <Button onClick={Login} variant="contained">Login</Button>
-                <Typography variant='h6'>Create new account
+                <Typography variant="h5" sx={{ fontWeight: "bold", color: "black", fontFamily: "Roboto,Helvetica,Arial,sans-serif" }} >Login</Typography>
+                <Box sx={{ width: "100%", display: "flex", margin: "8px" }}>
+                    <Button sx={{ width: "50%", height: "50px", backgroundImage: "linear-gradient(to right, #F3429A , #AA44B1);", color: "white" }} onClick={() => { navigate("#") }} >Login</Button>
+                    <Button sx={{ width: "50%", height: "50px", backgroundColor: "white", border: "1px solid #bdbbbb", color: "black" }} onClick={() => { navigate("/") }} >Signup</Button>
+
+                </Box>
+                <TextField onChange={(e) => { setEmail(e.target.value) }} sx={{ margin: "8px" }} fullWidth id="outlined-basic" label="Email" variant="outlined" type="email" />
+                <TextField onChange={(e) => { setPassword(e.target.value) }} sx={{ margin: "8px" }} fullWidth id="outlined-basic" label="Password" variant="outlined" type="password" />
+                <Button fullWidth sx={{ backgroundImage: "linear-gradient(to right, #F3429A , #AA44B1);", color: "white" }} onClick={Login}>Login</Button>
+
+                <Typography variant='h6' sx={{ color: "black", fontSize: "16px" }}>Create new account
                     <Button onClick={() => { navigate("/") }} >Sign Up</Button></Typography>
             </Box>
         </Container>
