@@ -20,7 +20,7 @@ export default function AppRouter() {
                 <Route path="login" element={<Login />} />
             </Routes>
             <Routes>
-                <Route path="home" element={<Home />} />
+                <Route path="home/:id" element={<Home />} />
             </Routes>
 
 

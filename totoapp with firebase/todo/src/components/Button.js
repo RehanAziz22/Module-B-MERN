@@ -1,15 +1,15 @@
-function Button(prompt) {
+function MyButton(props) {
   return (
     <button
-      onClick={prompt.onClick}
-      className={prompt.otherClass}
-      onSubmit={prompt.btnSubmit}
-      type={prompt.btnType}
-      disabled={prompt.bol}
+      onClick={props.onClick}
+      className={props.otherClass}
+      onSubmit={props.btnSubmit}
+      type={props.btnType}
+      disabled={props.bol}
     >
-      {prompt.btnName}
+      {props.btnName}
     </button>
   );
 }
 
-export default Button;
+export default MyButton;
