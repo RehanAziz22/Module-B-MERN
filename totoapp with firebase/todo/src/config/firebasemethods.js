@@ -7,7 +7,7 @@ import {
   signOut,
 
 } from "firebase/auth";
-import { getDatabase, ref, set, onValue, push, onChildRemoved, } from "firebase/database";
+import { getDatabase, ref, set, onValue, push, onChildAdded, } from "firebase/database";
 import { Redirect } from "react-router-dom";
 
 const auth = getAuth(app);
@@ -133,7 +133,7 @@ let sendData = (obj, nodeName, id) => {
 let getData = (nodeName, id) => {
   let refernece = ref(database, `${nodeName}/${id ? id : ""}`);
   return new Promise((resolve, reject) => {
-    onValue(refernece,
+    onChildAdded(refernece,
       (snapshot) => {
         if (snapshot.exists()) {
           let data = snapshot.val();
