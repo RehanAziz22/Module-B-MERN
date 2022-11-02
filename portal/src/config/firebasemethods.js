@@ -38,7 +38,7 @@ let signUpUser = (obj) => {
 
 };
 
-let loginUser = (obj,nodeName) => {
+let loginUser = (obj, nodeName) => {
   let { email, password } = obj;
   return new Promise((resolve, reject) => {
     signInWithEmailAndPassword(auth, email, password)
@@ -96,14 +96,14 @@ let checkUser = () => {
       } else {
         // User is signed out
         // ...
-        reject("no user is logged in!")  
+        reject("no user is logged in!")
       }
     })
 
   })
 }
 
-export default function sendData(obj, nodeName, id){
+export default function sendData(obj, nodeName, id) {
   let postListRef
   return new Promise((resolve, reject) => {
 
@@ -153,5 +153,6 @@ let getData = (nodeName, id) => {
     );
   });
 };
+
 // export { signUpUser, loginUser, checkUser, sendData, getData, signoutUser };
-export{ sendData , loginUser, getData} ;
+export { sendData, loginUser, getData };

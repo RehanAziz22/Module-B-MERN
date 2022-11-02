@@ -23,10 +23,10 @@ import { Route, Routes,Link, useNavigate } from "react-router-dom";
 // import Notification from "../screens/dashboard_screens/notification";
 // import AllData from "../screens/dashboard_screens/data";
 import StudentForm from "../screens/studentform";
-import Course from "../screens/course";
-import Result from "../screens/result";
-import Quiz from "../screens/quiz";
-import Students from "../screens/students";
+import CourseScreen from "../screens/admin screens/courseScreen";
+import Result from "../screens/admin screens/result";
+import Students from "../screens/admin screens/students";
+import Quiz from "../screens/admin screens/quiz";
 
 const drawerWidth = 240;
 
@@ -210,9 +210,9 @@ function ResponsiveDrawer(props) {
                 <Box>
                     <Routes>
                         <Route path="students" element={<Students />} />
-                        <Route path="quiz" element={<Quiz />} />
+                        <Route path="quiz" element={<Quiz/>} />
                         <Route path="result" element={<Result />} />
-                        <Route path="course" element={<Course />} />
+                        <Route path="course/*" element={<CourseScreen />} />
                     </Routes>
                 </Box>
             </Box>

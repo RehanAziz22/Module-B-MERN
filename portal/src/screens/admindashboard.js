@@ -6,10 +6,10 @@ import ResponsiveDrawer from '../components/drawer'
 export default function AdminDashboard() {
     let navigate = useNavigate()
     return (
-        <>
+        <div  style={{paddingTop:"80px"}}>
 
             <ResponsiveDrawer />
-        </>
+        </div>
         // <Container width={"lg"}>
         // </Container>
     )

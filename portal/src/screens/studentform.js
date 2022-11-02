@@ -3,6 +3,7 @@ import { Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography 
 import MyTextField from '../components/mytextfield';
 import sendData from '../config/firebasemethods';
 import Button from '@mui/material/Button';
+import MyDatePicker from '../components/myDatePicker';
 
 export default function StudentForm() {
   let [module, setModule] = useState({});
@@ -17,12 +18,17 @@ export default function StudentForm() {
     [{ section: "A" }, { section: "B" }, { section: "C" }]
   );
   let [btnDisabled, setBtnDisabled] = useState(false);
-
+  let [date, setDate] = useState({});
+  
+  console.log(date)
   let fillModule = (key, val) => {
     module[key] = val;
     setModule({ ...module })
     // console.log(module)
   }
+  // useEffect(()=>{
+  //   fillModule({...date,birthdate:date})
+  // },[])
   let sendStdData = () => {
     console.log(module)
 
@@ -149,6 +155,12 @@ export default function StudentForm() {
               required={true}
               type={"text"}
               onChange={(e) => { fillModule("emergencyContact", e.target.value) }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <MyTextField
+            type="date"
+            onChange={(e)=>{setDate(e.target.value)}}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={12}>

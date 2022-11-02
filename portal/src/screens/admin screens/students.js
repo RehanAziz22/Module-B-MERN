@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { CircularProgress, Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
-import MyTextField from '../components/mytextfield';
-import sendData, { getData } from '../config/firebasemethods';
+import MyTextField from '../../components/mytextfield';
+import sendData, { getData } from '../../config/firebasemethods';
 import Button from '@mui/material/Button'
-import DenseTable from '../components/table';
+import DenseTable from '../../components/table';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -61,13 +61,13 @@ export default function Students() {
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell component="th" scope="row">
-                                                {`${row.firstName} ${row.lastName}`}
+                                                {`${row.StudentInfo?.firstName} ${row.StudentInfo?.lastName}`}
                                             </TableCell>
-                                            <TableCell align="right">{row.fatherName}</TableCell>
-                                            <TableCell align="right">{row.contact}</TableCell>
-                                            <TableCell align="right">{row.course}</TableCell>
-                                            <TableCell align="right">{row.section}</TableCell>
-                                            <TableCell align="right">{row.cnic}</TableCell>
+                                            <TableCell align="right">{row.StudentInfo?.fatherName}</TableCell>
+                                            <TableCell align="right">{row.StudentInfo?.contact}</TableCell>
+                                            <TableCell align="right">{row.StudentInfo?.course}</TableCell>
+                                            <TableCell align="right">{row.StudentInfo?.section}</TableCell>
+                                            <TableCell align="right">{row.StudentInfo?.cnic}</TableCell>
                                         </TableRow>
                                     )) :(
                                         <TableRow>

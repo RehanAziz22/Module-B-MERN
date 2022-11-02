@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
-import MyTextField from '../components/mytextfield';
-import sendData from '../config/firebasemethods';
+import MyTextField from '../../components/mytextfield';
+import sendData from '../../config/firebasemethods';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 
-export default function Course() {
+export default function CreateCourse() {
   let [module, setModule] = useState({});
+  let [isloading, setLoader] = useState(false)
+
   let [duration, setDuration] = useState([
     { duration: "8" },
     { duration: "16" },
@@ -24,6 +27,7 @@ export default function Course() {
   }
   let sendStdData = () => {
     console.log(module)
+    setLoader(true)
 
     sendData({
       course: module,
@@ -31,8 +35,17 @@ export default function Course() {
       // userId: userId
     },
       `course/`)
-      .then((StudentInfo => { console.log(StudentInfo) }))
-      .catch((err => { console.log(err) }))
+      .then((course => {
+        console.log(course,
+          setLoader(false)
+        
+        )
+      }))
+      .catch((err => {
+        console.log(err,
+          setLoader(false)
+        )
+      }))
   }
   // let addAssistent=(e)=>{
   //   setAssistent( assistent.concat(e.target.value))
@@ -76,7 +89,7 @@ export default function Course() {
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">noOfQuiz</InputLabel>
+              <InputLabel id="demo-simple-select-label">No Of Quiz</InputLabel>
               <Select
                 // -------------------------------------> No Of Quiz
                 labelId="demo-simple-select-label"
@@ -124,13 +137,13 @@ export default function Course() {
               label={"Assistent Trainers"}
               required={true}
               type={"text"}
-              
+
               onChange={(e) => { fillModule("assitentTrainer", (e.target.value)) }}
             />
             {/* <Button onClick={}>Add Assistent</Button> */}
           </Grid>
           <Grid item xs={12} sm={12} md={12}>
-            <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} disabled={btnDisabled} onClick={sendStdData}>Submit Form</Button>
+            <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} disabled={btnDisabled} onClick={sendStdData}>{isloading ? <CircularProgress color="inherit" /> : "Submit Form"}</Button>
           </Grid>
         </Grid>
       </Container></>
