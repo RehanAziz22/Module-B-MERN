@@ -15,8 +15,11 @@ export default function Quiz() {
   let [module, setModule] = useState({});
   let [selectedCourse, setSelectedCourse] = useState("");
   let [btnDisabled, setBtnDisabled] = useState(false);
-  const [question, setQuestion] = useState({})
-  const [options, setOptions] = useState(["jnjjj","uuyqgywd"])
+  const [question, setQuestion] = useState("")
+  const [arrQuestions, setArrQuestions] = useState([])
+  const [option, setOption] = useState("")
+  const [arrOptions, setArrOptions] = useState([])
+  const [correctAnswer, setCheckedOptions] = useState()
   let [course, setCourse] = useState([
     {
       fullName: "Web and Mobile",
@@ -36,15 +39,9 @@ export default function Quiz() {
     }
   ]
   );
-  let nextSection = () => {
-    setBtnDisabled(true)
-  }
-  let fillModule = (key, val) => {
-    module[key] = val;
-    setModule({ ...module })
-    console.log(module)
-  }
-  let sendStdData = () => {
+  // database function 
+  // send data in Database
+  let sendQuizData = () => {
     console.log(module)
 
     sendData({
@@ -57,16 +54,43 @@ export default function Quiz() {
       .catch((err => { console.log(err) }))
   }
 
+  // display next container (section 2)
+  let nextSection = () => {
+    setBtnDisabled(true)
+  }
+
+  // module array
+  let fillModule = (key, val) => {
+    module[key] = val;
+    setModule({ ...module })
+    console.log(module)
+  }
+
+  // question Array
+  let fillQuestion = (key, val) => {
+    arrQuestions[key] = val;
+    setArrQuestions({ ...arrQuestions })
+    console.log(arrQuestions)
+  }
+
   //------------------
-  const handleChange = (event) => {
-    setOptions({
-      ...options,
-      [event.target.name]: event.target.checked,
-    });
+  const addOption = () => {
+    // 👇️ push to end of state array
+    setArrOptions([option, ...arrOptions]);
+    fillQuestion("options", arrOptions)
   };
 
-  const {} = options;
-  const error = [].filter((v) => v).length !== 2;
+  // set Correct option
+  // const handleCheckBox = (e) => {
+  //   setCheckedOptions(e.target.checked)
+  //   // fillModule({ ...correctAnswer, correct: e.target.checked })
+  //   console.log(correctAnswer)
+  // }
+
+  const submitQuestion = () => {
+    fillModule("zuestion", arrQuestions)
+
+  }
   return (
     <>
       <Container sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", backgroundColor: "white", padding: "15px", borderRadius: "5px", width: { xs: "100%", md: "100%" } }}>
@@ -76,21 +100,23 @@ export default function Quiz() {
             <Typography variant='h5' sx={{ fontWeight: "bold" }}>Create Quiz</Typography>
           </Grid>
 
-          {/* Section 1 */}
+          {/* -----------------------------------------Section 1 */}
           <Grid item xs={12} sm={12} md={12} sx={{ display: "flex" }}>
             <MyTextField
               // -------------------------------------> Quiz Name
               label={"Quiz Name"}
               required={true}
+              disabled={btnDisabled}
               type={"text"}
               onChange={(e) => { fillModule("quizName", e.target.value) }}
             />
             <MyTextField
               // -------------------------------------> Course Name
-              label={"Quiz Duration"}
+              label={"Quiz Score"}
               required={true}
+              disabled={btnDisabled}
               type={"text"}
-              onChange={(e) => { fillModule("quizDuration", e.target.value) }}
+              onChange={(e) => { fillModule("quizScore", e.target.value) }}
             />
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Course</InputLabel>
@@ -100,6 +126,8 @@ export default function Quiz() {
                 id="demo-simple-select"
                 // value={co}
                 label="Course"
+                defaultValue={""}
+                disabled={btnDisabled}
                 onChange={(e) => { fillModule("course", e.target.value) }}
               >
                 {course.map((x, i) => {
@@ -109,114 +137,72 @@ export default function Quiz() {
               </Select>
             </FormControl>
             <Grid item xs={12} sm={12} md={12}>
-              <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} disabled={btnDisabled} onClick={nextSection}>Next</Button>
+              <Button variant="contained"
+                sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} disabled={btnDisabled} onClick={nextSection}>Next</Button>
             </Grid>
           </Grid>
+
+          <Divider />
+          {/*---------------------------------- Section 2 */}
           {btnDisabled &&
 
             <>
-              <Divider />
               <Grid item xs={12} sm={12} md={12} sx={{ display: "flex" }}>
                 <MyTextField
-                  // -------------------------------------> Course Name
+                  // -------------------------------------> Question
                   label={"Question"}
                   required={true}
                   type={"text"}
-                  onChange={(e) => { fillModule({ ...question, question: e.target.value }) }}
+                  onChange={(e) => {
+                    fillQuestion("question", e.target.value)
+                  }}
                 />
-                <MyTextField
-                     // -------------------------------------> Course Name
-                     label={"Option"}
-                     required={true}
-                     type={"text"}
-                     onChange={(e) => { setOptions([ ...options, e.target.value ]) }}
-                   />
-                </Grid>
+              </Grid>
               <Grid item xs={12} sm={12} md={12} sx={{ display: "flex" }}>
-
-                {options.length > 0 ?<Box sx={{ display: 'flex' }}>
-                  <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+              {/*------------------------------------------- check Box  */}
+                {arrOptions.length > 0 ? <Box sx={{ display: 'flex' }}>
+                  <FormControl sx={{ m: 3, textAlign: "left" }} component="fieldset" variant="standard" >
                     <FormLabel component="legend">Options</FormLabel>
                     <FormGroup>
-                      {options.map((e,i) => {
-                        return<>
-      
-                        <FormControlLabel
-                        control={
-                          <Checkbox checked={e[i]} onChange={handleChange} name={e[i]} />
-                        }
-                        label={e[i]}
-                      />
-                      </>
-                    })}
+                      {arrOptions.map((e, i) => {
+                        return <>
+                          <FormControlLabel
+                            control={
+                              <Checkbox onChange={(e) => {
+                                fillQuestion("correctoption", e.target.checked)
+                              }} name={e} />
+                            }
+                            label={e}
+                          />
+                        </>
+                      })}
                     </FormGroup>
                   </FormControl>
-                </Box>:null}
-                </Grid>
+                </Box> : null}
+              </Grid>
               <Grid item xs={12} sm={12} md={12} sx={{ display: "flex" }}>
 
-                    <MyTextField
-                     // -------------------------------------> Course Name
-                     label={"Option"}
-                     required={true}
-                     type={"text"}
-                     onChange={(e) => { setOptions([ ...options, e.target.value ]) }}
-                   />
-                  <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} onClick={handleChange}>Add Option</Button>
+                <MyTextField
+                  // -------------------------------------> options
+                  label={"Option"}
+                  required={true}
+                  type={"text"}
+                  onChange={(e) => { setOption(e.target.value) }}
+                />
+                <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} onClick={addOption}>Add Option</Button>
 
               </Grid>
               <Grid item xs={12} sm={12} md={12}>
-                  <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} disabled={!btnDisabled} onClick={sendStdData}>Add Question</Button>
-                </Grid>
-                <Grid item xs={12} sm={12} md={12}>
-                  <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} disabled={!btnDisabled} onClick={sendStdData}>Submit Form</Button>
-                </Grid>
+                <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} onClick={submitQuestion}>Add Question</Button>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12}>
+                <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} onClick={sendQuizData}>Submit Form</Button>
+              </Grid>
 
             </>
 
           }
 
-
-          {/* <Grid item xs={12} sm={12} md={12} sx={{ display: "flex" }}>
-            <MyTextField
-              // -------------------------------------> Question
-              label={"Question"}
-              required={true}
-              type={"text"}
-              onChange={(e) => { fillModule("Question 1", e.target.value) }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={12} sx={{ display: "flex", justifyContent: "space-between" }}>
-            <MyTextField
-              // -------------------------------------> Option 1
-              label={"Option 1"}
-              required={false}
-              type={"text"}
-              onChange={(e) => { fillModule("option 1", e.target.value) }}
-            />
-            <MyTextField
-              // -------------------------------------> Option 2
-              label={"Option 2"}
-              required={true}
-              type={"text"}
-              onChange={(e) => { fillModule("option 2", e.target.value) }}
-            />
-            <MyTextField
-              // -------------------------------------> Option 3
-              label={"Option 3"}
-              required={true}
-              type={"text"}
-              onChange={(e) => { fillModule("option 3", e.target.value) }}
-            />
-
-            <MyTextField
-              // -------------------------------------> Option 4
-              label={"Option 4"}
-              required={true}
-              type={"text"}
-              onChange={(e) => { fillModule("option 4", e.target.value) }}
-            />
-          </Grid> */}
         </Grid>
       </Container></>
   )
