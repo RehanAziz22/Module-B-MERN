@@ -7,6 +7,7 @@ export default function Home() {
     return (
         <Container >
             <Button sx={{color:"black"}} onClick={()=>{navigate("/registration")}}>Registration</Button>
+            <Button sx={{color:"black"}} onClick={()=>{navigate("/studentLogin")}}>Student Login</Button>
             <Button sx={{color:"black"}} onClick={()=>{navigate("/adminLogin")}}>Admin Login</Button>
             {/* <Button sx={{color:"black"}} onClick={()=>{navigate("/quiz")}}>Quiz</Button> */}
         </Container>

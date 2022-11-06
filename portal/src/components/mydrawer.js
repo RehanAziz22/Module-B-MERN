@@ -13,67 +13,89 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
+import DvrSharpIcon from "@mui/icons-material/DvrSharp";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Route, Routes,Link, useNavigate } from "react-router-dom";
+import { Route, Routes, Link, useNavigate } from "react-router-dom";
 // import Message from "../screens/dashboard_screens/messages";
 // import Feedback from "../screens/dashboard_screens/feedback";
 // import Notification from "../screens/dashboard_screens/notification";
 // import AllData from "../screens/dashboard_screens/data";
 import StudentForm from "../screens/studentform";
-import CourseScreen from "../screens/admin screens/courseScreen";
-import Result from "../screens/admin screens/result";
-import Students from "../screens/admin screens/students";
-import Quiz from "../screens/admin screens/quiz";
-
+import CourseScreen from "../screens/adminscreens/courseScreen";
+import Result from "../screens/adminscreens/result";
+import Students from "../screens/adminscreens/students";
+import Quiz from "../screens/adminscreens/quiz";
+import GiveQuiz from "../screens/studentsScreen/givequiz";
+import StudentResult from "../screens/studentsScreen/studentresult";
+import SignupAdmin from "../screens/adminscreens/signupAdmin";
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
 const drawerWidth = 240;
 
-function ResponsiveDrawer(props) {
-    const { window } = props;
+function MyDrawer(props) {
+    const { window, datasourse, routespath, value } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const navigate = useNavigate();
-     
+
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+    const [auth, setAuth] = React.useState(true);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+  
+    const handleChange = (event) => {
+      setAuth(event.target.checked);
+    };
+  
+    const handleMenu = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
 
-//     const [navItems, setNaveItems] = React.useState([{
-//         path: "/",
-//         name: "Home",
-//         icon: () => <InboxIcon />
-//     },
-//     {
-//         path: "/about",
-//         name: "About",
-//         icon: () => <InboxIcon />
-//     },
-//     {
-//         path: "/services",
-//         name: "Services",
-//         icon: () => <InboxIcon />
-//     },
-//     {
-//         path: "/contact",
-//         name: "Contact",
-//         icon: () => <InboxIcon />
-//     },
-//     {
-//         path: "dashboard",
-//         name: "Dashboard",
-//         icon: () => <InboxIcon />
-//     }
-// ])
+    //     const [navItems, setNaveItems] = React.useState([{
+    //         path: "/",
+    //         name: "Home",
+    //         icon: () => <InboxIcon />
+    //     },
+    //     {
+    //         path: "/about",
+    //         name: "About",
+    //         icon: () => <InboxIcon />
+    //     },
+    //     {
+    //         path: "/services",
+    //         name: "Services",
+    //         icon: () => <InboxIcon />
+    //     },
+    //     {
+    //         path: "/contact",
+    //         name: "Contact",
+    //         icon: () => <InboxIcon />
+    //     },
+    //     {
+    //         path: "dashboard",
+    //         name: "Dashboard",
+    //         icon: () => <InboxIcon />
+    //     }
+    // ])
     const drawer = (
 
         <div>
-            <Typography variant="h6" sx={{ my: 2 }}>
+            <Typography variant="h6" sx={{ my: 2, textAlign: "center" }}>
                 Dashboard
             </Typography>
             <Divider />
-                    {/* <List sx={{ display: { xs: 'block', sm: 'none' } }}>
+            {/* <List sx={{ display: { xs: 'block', sm: 'none' } }}>
                         {navItems.map((item, i) => (
                             <ListItem key={i} disablePadding>
                         <ListItemButton onClick={() => {
@@ -87,42 +109,21 @@ function ResponsiveDrawer(props) {
                     </ListItem>
                         ))}
                     </List> */}
-                <Divider />
+            <Divider />
             <List>
-                {[
-                    {
-                        route: "Students",
-                        name: "Enrolled Students",
-                        icon: () => <InboxIcon />
-                    },
-                    {
-                        route: "quiz",
-                        name: "Quiz",
-                        icon: () => <InboxIcon />
-                    },
-                    {
-                        route: "result",
-                        name: "Result",
-                        icon: () => <InboxIcon />
-                    },
-                    {
-                        route: "course",
-                        name: "course",
-                        icon: () => <InboxIcon />
-                    },
-                ].map((text, index) => (
+                {datasourse.map((text, index) => (
                     <ListItem key={index} disablePadding>
                         <ListItemButton onClick={() => {
                             navigate(text.route)
                         }}>
                             <ListItemIcon>
-                                {text.icon()}
+                                {<DvrSharpIcon />}
                             </ListItemIcon>
                             <ListItemText primary={text.name} />
                         </ListItemButton>
                     </ListItem>
                 ))}
-                </List>
+            </List>
         </div>
     );
 
@@ -141,7 +142,7 @@ function ResponsiveDrawer(props) {
                     ml: { sm: `${drawerWidth}px` },
                 }}
             >
-                <Toolbar>
+                <Toolbar sx={{justifyContent:{xs:"space-between",sm:"right"}}}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -151,7 +152,7 @@ function ResponsiveDrawer(props) {
                     >
                         <MenuIcon />
                     </IconButton>
-                    
+
                     {/* <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item, i) => (
                             <Link key={i} className="navLinks" to={item.path} sx={{ color: '#fff !important', margin: "0px 5px !important" }}>
@@ -159,6 +160,38 @@ function ResponsiveDrawer(props) {
                             </Link>
                         ))}
                     </Box> */}
+                    {auth && (
+                        <div>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleMenu}
+                                color="inherit"
+                            >
+                                <AccountCircle />
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorEl}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}
+                            >
+                                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                <MenuItem onClick={handleClose}>My account</MenuItem>
+                            </Menu>
+                        </div>
+                    )}
                 </Toolbar>
             </AppBar>
             <Box
@@ -210,9 +243,12 @@ function ResponsiveDrawer(props) {
                 <Box>
                     <Routes>
                         <Route path="students" element={<Students />} />
-                        <Route path="quiz" element={<Quiz/>} />
+                        <Route path="quiz" element={<Quiz />} />
                         <Route path="result" element={<Result />} />
                         <Route path="course/*" element={<CourseScreen />} />
+                        <Route path="signupAdmin" element={<SignupAdmin />} />
+                        <Route path="studentquiz" element={<GiveQuiz />} />
+                        <Route path="studentresult" element={<StudentResult />} />
                     </Routes>
                 </Box>
             </Box>
@@ -220,7 +256,7 @@ function ResponsiveDrawer(props) {
     );
 }
 
-ResponsiveDrawer.propTypes = {
+MyDrawer.propTypes = {
     /**
      * Injected by the documentation to work in an iframe.
      * You won't need it on your project.
@@ -228,4 +264,4 @@ ResponsiveDrawer.propTypes = {
     window: PropTypes.func,
 };
 
-export default ResponsiveDrawer;
+export default MyDrawer;

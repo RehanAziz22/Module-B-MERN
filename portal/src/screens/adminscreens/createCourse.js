@@ -4,6 +4,7 @@ import MyTextField from '../../components/mytextfield';
 import sendData from '../../config/firebasemethods';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+import MySelect from '../../components/mySelect';
 
 export default function CreateCourse() {
   let [module, setModule] = useState({});
@@ -23,22 +24,21 @@ export default function CreateCourse() {
   let fillModule = (key, val) => {
     module[key] = val;
     setModule({ ...module })
-    // console.log(module)
+    console.log(module)
   }
   let sendStdData = () => {
     console.log(module)
     setLoader(true)
 
-    sendData({
-      course: module,
+    sendData( module,
       // time: new Date(),
       // userId: userId
-    },
+    
       `course/`)
       .then((course => {
         console.log(course,
           setLoader(false)
-        
+
         )
       }))
       .catch((err => {
@@ -69,40 +69,23 @@ export default function CreateCourse() {
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
+            <MySelect
+              label={"Course Duration"}
+              valueField="duration"
+              displayField="duration"
+              datasource={duration}
+              onChange={(e) => { fillModule("duration", e.target.value) }}
 
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Course Duration</InputLabel>
-              <Select
-                // -------------------------------------> Course 
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                // value={co}
-                label="Course Duration"
-                onChange={(e) => { fillModule("duration", e.target.value) }}
-              >
-                {duration.map((x, i) => {
-                  return <MenuItem key={i} value={x.duration}>{x.duration}</MenuItem>
-
-                })}
-              </Select>
-            </FormControl>
+            />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">No Of Quiz</InputLabel>
-              <Select
-                // -------------------------------------> No Of Quiz
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                // value={noOfQuiz}
-                label="No Of Quiz"
-                onChange={(e) => { fillModule("noOfQuiz", e.target.value) }}
-              >
-                {noOfQuiz.map((x, i) => {
-                  return <MenuItem value={x.noOfQuiz}>{x.noOfQuiz}</MenuItem>
-                })}
-              </Select>
-            </FormControl>
+          <MySelect
+              label={"No of Quiz"}
+              valueField="noOfQuiz"
+              displayField="noOfQuiz"
+              datasource={noOfQuiz}
+              onChange={(e) => { fillModule("noOfQuiz", e.target.value) }}
+            />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
             <MyTextField
@@ -119,7 +102,7 @@ export default function CreateCourse() {
               label={"Fees in Rupee"}
               required={true}
               type={"text"}
-              onChange={(e) => { fillModule("fees", `${e.target.value} RS`) }}
+              onChange={(e) => { fillModule("fees", `${e.target.value}`) }}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>

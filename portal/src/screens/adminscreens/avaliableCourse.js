@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { CircularProgress, Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
-import MyTextField from '../../components/mytextfield';
-import sendData, { getData } from '../../config/firebasemethods';
 import Button from '@mui/material/Button'
 import DenseTable from '../../components/table';
 import Table from '@mui/material/Table';
@@ -11,32 +9,33 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { getData } from '../../config/firebasemethods';
 
 
 
-export default function Students() {
+export default function AvaliableCourse() {
     let [module, setModule] = useState({});
-    let [stdData, setStdData] = useState([])
-    let sendStdData = () => {
+    let [courseData, setCourseData] = useState([])
+    let sendcourseData = () => {
         console.log(module)
 
-        getData(`studentsRecord/`)
+        getData(`course/`)
             .then((res) => {
-                setStdData(res)
+                setCourseData(res)
                 console.log(res)
             })
             .catch((err) => {
                 alert(err)
             })
     }
-    useEffect(() => { sendStdData() }, [])
+    useEffect(() => { sendcourseData() }, [])
     return (
         <>
             <Container sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", backgroundColor: "white", padding: "15px", borderRadius: "5px", width: { xs: "100%", md: "100%" }}}>
                 <Grid container spacing={2}>
 
                     <Grid item xs={12} sm={12} md={12}>
-                        <Typography variant='h5' sx={{ fontWeight: "bold" }}>Enrolled Students</Typography>
+                        <Typography variant='h5' sx={{ fontWeight: "bold" }}>Avaliable Course</Typography>
                     </Grid>
 
 
@@ -46,28 +45,28 @@ export default function Students() {
                             <Table sx={{minWidth:650}} size="small" aria-label="a dense table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Full Name</TableCell>
-                                        <TableCell align="right">Father</TableCell>
-                                        <TableCell align="right">Contact</TableCell>
-                                        <TableCell align="right">Course</TableCell>
-                                        <TableCell align="right">Section</TableCell>
-                                        <TableCell align="right">CNIC</TableCell>
+                                        <TableCell>Course Name</TableCell>
+                                        <TableCell align="right">Duration</TableCell>
+                                        <TableCell align="right">Fees</TableCell>
+                                        <TableCell align="right">Form Open/Close</TableCell>
+                                        <TableCell align="right">No of Quiz</TableCell>
+                                        <TableCell align="right">Trainer Id</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {stdData.length > 0 ? stdData.map((row,i) => (
+                                    {courseData.length > 0 ? courseData.map((row,i) => (
                                         <TableRow
                                             key={i}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                         >
                                             <TableCell component="th" scope="row">
-                                                {`${row.StudentInfo?.firstName} ${row.StudentInfo?.lastName}`}
+                                                {`${row.courseName}`}
                                             </TableCell>
-                                            <TableCell align="right">{row.StudentInfo?.fatherName}</TableCell>
-                                            <TableCell align="right">{row.StudentInfo?.contact}</TableCell>
-                                            <TableCell align="right">{row.StudentInfo?.course}</TableCell>
-                                            <TableCell align="right">{row.StudentInfo?.section}</TableCell>
-                                            <TableCell align="right">{row.StudentInfo?.cnic}</TableCell>
+                                            <TableCell align="right">{row.duration} Months</TableCell>
+                                            <TableCell align="right">{row.fees} Rs</TableCell>
+                                            <TableCell align="right">{row.isFormOpen==("y"||"yes"||"Y"||"Yes")?"Yes":"No"}</TableCell>
+                                            <TableCell align="right">{row.noOfQuiz}</TableCell>
+                                            <TableCell align="right">{row.trainerId}</TableCell>
                                         </TableRow>
                                     )) :(
                                         <TableRow>

@@ -46,11 +46,7 @@ export default function Quiz() {
   let sendQuizData = () => {
     console.log(module)
 
-    sendData({
-      quiz: module,
-      // time: new Date(),
-      // userId: userId
-    },
+    sendData( module,
       `Quiz/`)
       .then((quiz => { console.log(quiz) }))
       .catch((err => { console.log(err) }))
@@ -98,7 +94,7 @@ export default function Quiz() {
   }
   
   const lockQuizPage = () => {
-    // setLockQuiz(false)
+    setLockQuiz(false)
   }
 
   return (
@@ -133,25 +129,14 @@ export default function Quiz() {
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3} >
-
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Course</InputLabel>
-                <Select
-                  // -------------------------------------> Course 
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  // value={co}
-                  label="Course"
-                  defaultValue={""}
-                  disabled={btnDisabled}
-                  onChange={(e) => { fillModule("course", e.target.value) }}
-                >
-                  {course.map((x, i) => {
-                    return <MenuItem key={i} value={x.fullName}>{x.fullName}</MenuItem>
-
-                  })}
-                </Select>
-              </FormControl>
+            <MySelect
+              label={"Course"}
+              valueField="fullName"
+              displayField="fullName"
+              datasource={course}
+              disabled={btnDisabled}
+              onChange={(e) => { fillModule("course", e.target.value) }}
+            />
             </Grid>
             <Grid item xs={12} sm={6} md={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Button variant="contained"
@@ -182,8 +167,8 @@ export default function Quiz() {
                         return <>
                           <FormControlLabel
                             control={
-                              <Checkbox onChange={(e) => {
-                                fillQuestion("correctoption", e.target.checked)
+                              <Checkbox value={e} onChange={(e) => {
+                                fillQuestion("correctoption", e.target.value)
                               }} name={e} />
                             }
                             label={e}
@@ -217,7 +202,7 @@ export default function Quiz() {
               </Grid>
             </>}</>}
 
-          {lockQuiz && <>
+          {!lockQuiz && <>
           <Grid item xs={12} sm={12} md={12}>
             <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} onClick={sendQuizData}>Submit Form</Button>
           </Grid>

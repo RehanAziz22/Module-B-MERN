@@ -14,11 +14,9 @@ const auth = getAuth(app);
 const database = getDatabase(app);
 let signUpUser = (obj) => {
   let { email, password, userName, contact } = obj
-
-
   //==this will return on signup page ====
   return new Promise((resolve, reject) => {
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email, password,userName)
       // === this "then" will give the status of Authentication. ===
       .then((userCredential) => {
         // user successfully registered
@@ -38,10 +36,35 @@ let signUpUser = (obj) => {
 
 };
 
-let loginUser = (obj, nodeName) => {
-  let { email, password } = obj;
+let signUpAdmin = (obj) => {
+  let { email, password, userName, contact } = obj
+
+
+  //==this will return on signup page ====
   return new Promise((resolve, reject) => {
-    signInWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email, password,userName)
+      // === this "then" will give the status of Authentication. ===
+      .then((userCredential) => {
+        // user successfully registered
+        const user = userCredential.user;
+        const refrence = ref(database, `admin/${user.uid}`);
+        obj.id = user.uid;
+        set(refrence, obj)
+          // === this "then" will give the status of database function
+          .then(() => {
+            // this "resolve" is our custom message which will show in signup page "then"
+            resolve("admin created succesfully")
+          })
+          .catch((errr) => { reject(errr) })
+      })
+      .catch((err) => { reject(err) })
+  })
+
+};
+let loginUser = (obj, nodeName) => {
+  let { email, password, userName } = obj;
+  return new Promise((resolve, reject) => {
+    signInWithEmailAndPassword(auth, email, password, userName)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
@@ -155,4 +178,4 @@ let getData = (nodeName, id) => {
 };
 
 // export { signUpUser, loginUser, checkUser, sendData, getData, signoutUser };
-export { sendData, loginUser, getData };
+export { sendData, loginUser, getData ,signUpUser,signUpAdmin};
