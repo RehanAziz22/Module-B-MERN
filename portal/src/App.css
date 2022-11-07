@@ -4,27 +4,19 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
+  align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: rgb(79, 79, 79);
-}
-.meter{
-  background: url(./meter.png);
-  background-repeat: no-repeat;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  align-items: end;
 }
 .arrowimg{
   width: 40% !important;
   top: 100px;
   position: absolute;
 }
-.chip:hover{
-  background-color: green !important;
+.chip:active, .chip:focus{
+  /* background-color: green !important; */
+  background-image: linear-gradient( 109.6deg, rgb(107 227 205) 11.2%, rgb(110 238 251) 91.1% );
   color: white;
 }
 @media only screen and (max-width:450px){

@@ -156,12 +156,12 @@
 // }
 
 
-import { Box, Checkbox, Container, FormControlLabel, Grid, selectClasses, Typography, Chip } from '@mui/material'
+import { Box, Checkbox, Container, FormControlLabel, Grid, selectClasses, Typography, Chip, Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import MyButton from '../../components/mybutton'
 import MySelect from '../../components/mySelect'
 import MyTextField from '../../components/mytextfield'
-import { getData } from '../../config/firebasemethods'
+import sendData, { getData } from '../../config/firebasemethods'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -179,42 +179,47 @@ export default function QuizApp() {
     let [quizQuestion, setQuizQuestion] = useState([])
     let [studentResult, setStudentResult] = useState([])
     let [disabled, setDisabled] = useState(false)
+    let [quizScore, setQuizScore] = useState([])
     let [selectedCourse, setSelectedCource] = useState("")
+    let [selectedOption, setSelectedOption] = useState("")
     let [sectionOne, setSectionOne] = useState(true)
     const [indexNumber, setIndexNumber] = useState(0)
     const [score, setScore] = useState(0)
     const [result, setResult] = useState(false)
     const [name, setName] = useState("")
     let percentage = ((score / quizQuestion.length) * 100);
-
+    // let marks = ((Math.floor(percentage)*50)/100)
+    let marks = ((Math.floor(percentage) * parseInt(quizScore)) / 100);
+console.log(parseInt(quizScore))
+console.log(marks)
     let [selectedCourseTitle, setSelectedCourceTitle] = useState("")
     let [rollNum, setRollNum] = useState("")
     let getResultData = () => {
         getData(`Quiz/`)
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 let arr = res.filter((x) => x.course)
                 setAllQuestions([...arr])
-                console.log(allQuestions)
+                // console.log(allQuestions)
             })
             .catch((err) => {
                 alert(err)
             })
     }
-    // let sendQuizData = () => {
-    //     module.score = score;
-    //     module.
-    //     console.log(module)
-    //     sendData( module,
-    //       `quizresult/`)
-    //       .then((quiz => { console.log(quiz) }))
-    //       .catch((err => { console.log(err) }))
-    //   }
-    
-      // display next container (section 2)
-      let nextSection = () => {
-        setBtnDisabled(true)
-      }
+    let sendQuizData = () => {
+        module.marks = marks;
+        module.course = selectedCourse
+        console.log(module)
+        sendData(module,
+            `quizresult/${selectedCourse}/${selectedCourseTitle}`)
+            .then((quiz => { console.log(quiz) }))
+            .catch((err => { console.log(err) }))
+    }
+
+    // display next container (section 2)
+    let nextSection = () => {
+        // setBtnDisabled(true)
+    }
     let selectCourse = (e) => {
         setSelectedCource(e)
         console.log(selectedCourse)
@@ -234,6 +239,7 @@ export default function QuizApp() {
         // console.log(courseTitle)
         setQuizQuestion([...obj.allquestion])
         console.log(quizQuestion)
+        setQuizScore(obj.quizScore)
     }
 
     //    let showstudentResult = () => {
@@ -260,9 +266,11 @@ export default function QuizApp() {
     let checkQuestion = (a, b) => {
         if (a == b) {
             setScore(score + 1)
+            console.log(score)
         }
         if (indexNumber + 1 == quizQuestion.length) {
             setResult(true)
+            sendQuizData()
         }
         else {
             setIndexNumber(indexNumber + 1)
@@ -272,7 +280,7 @@ export default function QuizApp() {
         getResultData()
     }, [])
     return (
-        < >
+        <>
 
             <Container sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", backgroundColor: "white", padding: "15px", borderRadius: "5px", width: { xs: "100%", md: "100%" } }}>
                 <Grid container spacing={2}>
@@ -311,14 +319,6 @@ export default function QuizApp() {
                                 label={"Next"}
                             />
                         </Grid>
-                        {/* <Grid item xs={12} sm={12} md={5}>
-                        <MyTextField
-                            label="Enter Roll No"
-                            onChange={(e) => setRollNum(e.target.value)}
-
-                        />
-                        </Grid> */}
-
 
                         {disabled && <>
                             <Grid item xs={12} sm={12} md={4} >
@@ -368,78 +368,67 @@ export default function QuizApp() {
                                 </Grid>
 
 
-                                {/* {quizQuestion.map((e) => {
-                                    return <>
-                                        <Grid item xs={12} sm={12} md={12}>
-                                            <Typography variant='h6' sx={{ fontWeight: "bold",textAlign:"left" }}>{e.question}</Typography>
-                                        </Grid>
-                                        <Grid item xs={12} sm={12} md={12}>
 
-                                        <Box sx={{ display: "flex", flexDirection: "column" }}>
-                                        {e.options.map((e, i) => {
-                                            return <>
-                                            <FormControlLabel
-                                            control={
-                                                <Checkbox value={e}
-                                                // onChange={(e) => {}} 
-                                                name={e} />
-                                            }
-                                            label={e}
-                                            />
-                                            </>
-                                        })}
-                                        </Box>
-                                        </Grid>
-                                        </>
-                                    })} */}
+                                {!result &&
 
-                                {!result && <Box className="options-con" sx={{ background: "white", color: "black", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", margin: "20px 30px", padding: "20px" }}>
-                                    <Box sx={{ padding: 1 }}>
-                                        <Box sx={{ display: "flex", justifyContent: "space-between", margin: "2px 0px 10px", padding: 1 }}>
-                                            <Typography varient="h6" sx={{ color: "black" }} >
-                                                Questions #{indexNumber + 1}/{quizQuestion.length}
-                                            </Typography>
-                                            {/* <Typography varient="h6" sx={{ color: "black", display: "flex", alignItems: "center", fontSize: "20px" }} >
+                                    <Grid item xs={12} sm={12} md={12}>
+                                        {/* <Box className="options-con" sx={{ background: "white", color: "black", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", margin: "20px 30px", padding: "20px" }}> */}
+                                        <Box sx={{ padding: 1 }}>
+                                            <Box sx={{ display: "flex", justifyContent: "space-between", margin: "2px 0px 10px", padding: 1 }}>
+                                                <Typography varient="h6" sx={{ color: "black" }} >
+                                                    Questions #{indexNumber + 1}/{quizQuestion.length}
+                                                </Typography>
+                                                {/* <Typography varient="h6" sx={{ color: "black", display: "flex", alignItems: "center", fontSize: "20px" }} >
                                                 <TimerIcon sx={{ fontSize: "22px" }} /> <span>{minutes < 10 ? ": 0" + minutes : `: ${minutes}`}:{seconds < 10 ? "0" + seconds : seconds}</span>
-                                            </Typography> */}
+                                            </Typography>  */}
+                                            </Box>
+
+                                            {/* -------------------------Questions  */}
+                                            <Typography variant="h5" sx={{ textAlign: "left" }}>
+                                                {quizQuestion[indexNumber].question}
+                                            </Typography>
                                         </Box>
 
-                                        {/* -------------------------Questions */}
-                                        <Typography variant="h5" sx={{ textAlign: "left" }}>
-                                            {quizQuestion[indexNumber].question}
-                                        </Typography>
-                                    </Box>
+                                        {/* -------------------------Options  */}
 
-                                    {/* -------------------------Options */}
+                                        <Box>
+                                            <Grid container sx={{ display: "flex", justifyContent: "center", flexDirection: "column", margin: "5px 0px" }}>
+                                                {quizQuestion[indexNumber].options.map((e, i) => (
+                                                    <Grid item key={i} md={12}>
+                                                        <Chip className="chip" sx={{
+                                                            backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );"
+                                                            , color: "white",
+                                                            width: "100%", margin: "5px 0px", fontSize: "16px", textAlign: "left"
+                                                        }}
+                                                            value={e}
+                                                            onClick={() => setSelectedOption(e)} label={e} />
+                                                    </Grid>))}
+                                            </Grid>
+                                        </Box>
 
-                                    <Box>
-                                        <Grid container sx={{ display: "flex", justifyContent: "center", flexDirection: "column", margin: "5px 0px" }}>
-                                            {quizQuestion[indexNumber].options.map((e, i) => (<Grid item key={i} md={12}>
-                                                <Chip className="chip" sx={{
-                                                    width: "100%", margin: "5px 0px", fontSize: "16px"
-                                                }} onClick={() => checkQuestion(e, quizQuestion[indexNumber].correctoption)} label={e} />
-                                            </Grid>))}
-                                        </Grid>
-                                    </Box>
-                                </Box>}
+                                        <Box sx={{ marginTop: "30px" }}>
+
+
+                                            <MyButton
+
+                                                label={indexNumber + 1 == quizQuestion.length ? "Finish" : "next"} onClick={() => checkQuestion(selectedOption, quizQuestion[indexNumber].correctoption)} />
+
+                                        </Box>
+                                        {/* </Box> */}
+                                    </Grid>
+                                }
+
+                                {result && (<>
+                                    <Box
+                                        sx={{ width: "100%", minWidth: "100px", maxWidth: "300px", minHeight: "200px", maxHeight: "200px", margin: " 0px auto" }}
+                                    >
+                                        <h5 style={{ width: "100%", }}>{`${module.firstName.charAt(0).toUpperCase()}${module.firstName.slice(1)} ${module.lastName.charAt(0).toUpperCase()}${module.lastName.slice(1)}`} Thank you for taking the quiz! Your answers have been submitted successfully.</h5>
+                                    </Box></>)}
+
                             </Grid>
                         </Grid>
                     </>
                     }
-                                            {result && (<>
-                                                <Box className="meter"
-                                                    sx={{ width: "100%", minWidth: "100px", maxWidth: "300px", minHeight: "200px", maxHeight: "200px", margin: " 0px auto" }}
-                                                >
-                                                    <CardMedia
-                                                        sx={percentage == 0 ? { rotate: '0deg' } : percentage <= 25 ? { rotate: '45deg' } : percentage <= 50 ? { rotate: '90deg' } : percentage <= 75 ? { rotate: '120deg' } : percentage <= 100 ? { rotate: '165deg' } : {}}
-                                                        component="img"
-                                                        className="arrowimg"
-                                                        height="auto"
-                                                        image="https://thumbs.dreamstime.com/b/red-arrow-isolated-white-background-red-arrow-vector-stock-arrow-icon-110771171.jpg"
-                                                        alt="green iguana"
-                                                    />
-                                                </Box>
-                                                <h3 style={{ width: "100%", }}>{name.charAt(0).toUpperCase() + name.slice(1)} your percentage is {percentage.toFixed(1)}%</h3></>)}
                 </Grid>
             </Container></>
     )
