@@ -1,161 +1,3 @@
-// // import { Box, Chip, Grid } from '@mui/material'
-// // import React, { useEffect, useState } from 'react'
-// // import { getData } from '../config/firebasemethods'
-
-// // export default function QuizApp() {
-// //   const [quizData, setQuizData] = useState([])
-// //   const [indexNumber, setIndexNumber] = useState(0)
-// //   const [score, setScore] = useState(0)
-// //   const [result, setResult] = useState(false)
-// //   const [showquizData, setShowquizData] = useState(false)
-// //   const [disabled, setDisabled] = useState(true)
-// //   const [name, setName] = useState("")
-// //   let getQuizData = () => {
-// //     console.log(module)
-
-// //     getData(`Quiz/`)
-// //       .then((res) => {
-// //         setQuizData(res)
-// //         console.log(res)
-// //       })
-// //       .catch((err) => {
-// //         alert(err)
-// //       })
-// //   }
-// //   let checkQuestion = (a, b) => {
-// //     if (a == b) {
-// //       setScore(score + 1)
-// //     }
-// //     if (indexNumber + 1 == quizData.length) {
-// //       setResult(true)
-// //     }
-// //     else {
-// //       setIndexNumber(indexNumber + 1)
-// //     }
-// //   };
-// //   useEffect(() => { getQuizData() }, [])
-// //   return (
-// //     <>
-// //       <Box>
-// //         <Grid container sx={{ display: "flex", justifyContent: "center", flexDirection: "column", margin: "5px 0px" }}>
-// //           {quizData[indexNumber].map((e, i) => (
-// //             <Grid item key={i} md={12}>
-// //               <Chip className="chip" sx={{
-// //                 width: "100%", margin: "5px 0px", fontSize: "16px"
-// //               }} onClick={() => checkQuestion(e, quizData[indexNumber].correctAns)} label={e} />
-// //             </Grid>))}
-// //         </Grid>
-// //       </Box></>
-// //   )
-// // }
-// import { Box, Button, Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material'
-// import React, { useEffect, useState } from 'react'
-// import { useNavigate } from 'react-router-dom'
-// import MyButton from '../../components/mybutton'
-// import MySelect from '../../components/mySelect'
-// import { getData } from '../../config/firebasemethods'
-
-// export default function GiveQuiz() {
-//     let navigate = useNavigate()
-//     const [quizData, setQuizData] = useState([])
-//     // const [filterData, setFilterData] = useState([])
-//     const [course, setCourse] = useState("")
-//     const [display, setDisplay] = useState(false)
-//     let getQuizData = () => {
-//         getData(`Quiz/`)
-//             .then((res) => {
-//                 setQuizData(res)
-//                 console.log(quizData)
-//                 console.log(res)
-//             })
-//             .catch((err) => {
-//                 alert(err)
-//             })
-//     }
-//     const unique = [...new Set(quizData.map(item => item.quiz.course))];
-//     let filterData = quizData
-//     let startQuiz = () => {
-//         setDisplay(true)
-//         filterData = quizData.find((x) => {
-//             if (x.quiz.course === course)
-//                 return x;
-//         })
-//         console.log(filterData)
-//     }
-//     useEffect(() => {
-//         getQuizData()
-//         // let obj = quizData.filter((x)=>{x.course})
-//     }, [])
-
-//     return (
-//         < >
-
-//             <Container sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", backgroundColor: "white", padding: "15px", borderRadius: "5px", width: { xs: "100%", md: "100%" } }}>
-//                 <Grid container spacing={2}>
-
-//                     <Grid item xs={12} sm={12} md={12}>
-//                         <Typography variant='h5' sx={{ fontWeight: "bold" }}>Avaliable quiz</Typography>
-//                     </Grid>
-//                     {/* <Grid item xs={12} sm={12} md={12}>
-//                         <MySelect
-//                             lable="courses"
-//                             dataset={quizData}
-//                         />
-//                     </Grid> */}
-//                     <Grid item xs={12} sm={6} md={4}>
-
-//                         <FormControl fullWidth>
-//                             <InputLabel id="demo-simple-select-label">Course</InputLabel>
-//                             <Select
-//                                 // -------------------------------------> Course 
-//                                 labelId="demo-simple-select-label"
-//                                 id="demo-simple-select"
-//                                 // value={co}
-//                                 label="Course"
-//                                 defaultValue={''}
-//                                 onChange={(e) => { setCourse(e.target.value) }}
-//                             >
-//                                 {
-//                                     unique.map((x, i) => {
-//                                         return <MenuItem key={i} value={x}>{x}</MenuItem>
-
-//                                     })}
-//                             </Select>
-//                         </FormControl>
-//                     </Grid>
-//                     <Grid item xs={12} sm={12} md={12}>
-//                         <MyButton
-//                             onClick={startQuiz}
-//                             label="start"
-//                         />
-//                     </Grid>
-//                     {display && <>
-//                         <Grid item xs={12} sm={12} md={12}>
-
-//                             {filterData.map((e, i) => {
-//                                 return <Grid container spacing={2} sx={{ border: "1px solid" }} key={e.id}>
-//                                     <Grid item xs={12} sm={4} md={4}>
-//                                     <Typography variant='h6' sx={{ fontWeight: "bold" }}>Quiz Title: {e.quiz.quizName}</Typography>
-//                                     </Grid>
-//                                     <Grid item xs={12} sm={4} md={4}>
-//                                     <Typography variant='h6' sx={{ fontWeight: "bold" }}>Course: {e.quiz.course}</Typography>
-//                                     </Grid>
-//                                     <Grid item xs={12} sm={4} md={4}>
-//                                     <Typography variant='h6' sx={{ fontWeight: "bold" }}>Marks: {e.quiz.quizScore}</Typography>
-//                                     </Grid>
-
-//                                 </Grid>
-//                             })}
-//                         </Grid></>}
-
-
-//                 </Grid>
-//             </Container>
-//         </>
-//     )
-// }
-
-
 import { Box, Checkbox, Container, FormControlLabel, Grid, selectClasses, Typography, Chip, Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import MyButton from '../../components/mybutton'
@@ -197,10 +39,10 @@ console.log(marks)
     let getResultData = () => {
         getData(`Quiz/`)
             .then((res) => {
-                // console.log(res)
+                console.log(res)
                 let arr = res.filter((x) => x.course)
                 setAllQuestions([...arr])
-                // console.log(allQuestions)
+                console.log(allQuestions)
             })
             .catch((err) => {
                 alert(err)
@@ -224,7 +66,7 @@ console.log(marks)
         setSelectedCource(e)
         console.log(selectedCourse)
         let obj = allQuestions.find((x) => x.course == e);
-        // console.log(obj.result);
+        console.log(obj);
         setCourseTitle([obj])
         console.log(courseTitle)
         // setQuizQuestion([...obj.allquestion])

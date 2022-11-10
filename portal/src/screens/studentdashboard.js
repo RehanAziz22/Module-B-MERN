@@ -1,37 +1,71 @@
 import { Button, Container } from '@mui/material'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import MyDrawer from '../components/mydrawer'
-import CourseScreen from './adminscreens/courseScreen'
-import Quiz from './adminscreens/quiz'
-import Result from './adminscreens/result'
-import Students from './adminscreens/students'
-import AdminDashboard from './admindashboard'
+import { checkUser, getData } from '../config/firebasemethods'
 
 export default function StudentDashboard() {
     let navigate = useNavigate()
+    const location = useLocation();
+    const params = useParams();
+    let [userId, setUserId] = useState('');
+
+    // const getUserData = () => {
+    //     getData(`users/${userId}`)
+    //       .then((res) => {
+    //         // console.log(res)
+    //       })
+    //       .catch((err) => {
+    //         alert(err)
+    //       })
+    //   }
+    useEffect(() => {
+        if (location.state && location.state.id) {
+            // setUser(location.state)
+            // console.log(location.state)
+            // console.log(Object.values(location.state.id))
+        } else {
+            // navigate("/");
+        };
+        checkUser()
+            .then((res) => {
+                // console.log(res);
+                if (params.id == res) {
+                    setUserId(res);
+                    console.log(userId)
+                    // getUserData();
+                }
+                else {
+                    navigate("/studentLogin")
+                }
+            })
+
+    }, [])
     return (
-        <div  style={{paddingTop:"80px"}}>
+        <div style={{ paddingTop: "80px" }}>
 
             <MyDrawer
-            datasourse={[
-                {
-                    route: "studentquiz",
-                    name: "Quiz",
-                },
-                {
-                    route: "studentresult",
-                    name: "Result",
-                },
-                {
-                    route: "adminDashboard",
-                    name: "adminDashboard",
-                },
-                {
-                    route: "adminDashboard/*",
-                    name: "adminDashboard",
-                },
-            ]}
+                nodeName="studentLogin"
+                userId={userId}
+                state={{ userId: userId, email: location.state.email, username: location.state.username, password: location.state.password }}
+                datasourse={[
+                    {
+                        route: "studentquiz",
+                        name: "Quiz",
+                    },
+                    {
+                        route: "studentresult",
+                        name: "Result",
+                    },
+                    {
+                        route: "adminDashboard",
+                        name: "adminDashboard",
+                    },
+                    {
+                        route: "adminDashboard/*",
+                        name: "adminDashboard",
+                    },
+                ]}
             />
         </div>
     )

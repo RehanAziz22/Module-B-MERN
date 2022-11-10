@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 
 
 export default function MyTextField(props) {
-    const { required, label, onChange, defaultValue, type,value,disabled } = props
+    const { required, label, onChange, defaultValue, type,value,disabled,ref ,onBlur} = props
     return (
         <TextField
             fullWidth
@@ -15,7 +15,8 @@ export default function MyTextField(props) {
             disabled={disabled}
             value={value}
             sx={{margin:"0px 2px "}}
-
+            ref={ref}
+onBlur={onBlur}
             type={type}
         />
     )

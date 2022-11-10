@@ -21,28 +21,15 @@ export default function AppRouter() {
 
             <Routes>
                 <Route path="/" element={<Home />} />
-            </Routes>
-            <Routes>
+
                 <Route path="registration" element={<StudentForm />} />
-            </Routes>
-            <Routes>
                 <Route path="adminLogin" element={<AdminLogin />} />
-            </Routes>
-            <Routes>
                 <Route path="studentLogin" element={<StudentLogin />} />
-            </Routes>
-            <Routes>
-                <Route path="studentLogin/:id/*" element={<StudentDashboard/>} />
-            </Routes>
-            <Routes>
-                <Route path="adminLogin/:id/*" element={<AdminDashboard  />} />
-            </Routes>
-            <Routes>
+                <Route path="studentLogin/:id/*" element={<StudentDashboard />} />
+                <Route path="adminLogin/:id/*" element={<AdminDashboard />} />
                 <Route path="quiz" element={<QuizApp />} />
+                <Route path="*" element={<p>Path not resolved</p>} />
             </Routes>
-            {/* <Routes>
-            <Route path="/*" element={<p>Path not resolved</p>} />
-            </Routes> */}
         </Router>
     );
 }

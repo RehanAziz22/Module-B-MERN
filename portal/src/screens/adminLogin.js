@@ -16,7 +16,10 @@ function AdminLogin() {
         setLoader(true)
         await loginUser({ email, password },'admin')
             .then((success) => {
-                navigate(`/adminLogin/${success.username}`)
+                // console.log(success)
+                let { email, password, username, id } = success
+                // console.log(email, password, username, id)
+                navigate(`/adminLogin/${success.id}`,{state:{id:id,username:username,email:email,password:password}})
                 setLoader(false)
             })
             .catch((error) => {

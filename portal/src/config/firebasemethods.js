@@ -72,8 +72,8 @@ let loginUser = (obj, nodeName) => {
         const reference = ref(database, `${nodeName}/${user.uid}`);
         onValue(reference, (e) => {
           let status = e.exists();
-          console.log(status);
-          console.log(e.val());
+          // console.log(status);
+          // console.log(e.val());
           if (status) {
             resolve(e.val());
           } else {
@@ -91,6 +91,25 @@ let loginUser = (obj, nodeName) => {
 
 };
 
+let checkUser = () => {
+  return new Promise((resolve, reject) => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        resolve(uid);
+        // ...
+      } else {
+        // User is signed out
+        // ...
+        reject("no user is logged in!")
+        
+      }
+    })
+
+  })
+}
 let signoutUser = () => {
   return new Promise((resolve, reject) => {
     signOut(auth)
@@ -106,25 +125,6 @@ let signoutUser = () => {
 };
 
 
-let checkUser = () => {
-
-  return new Promise((resolve, reject) => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        const uid = user.uid;
-        resolve(uid);
-        // ...
-      } else {
-        // User is signed out
-        // ...
-        reject("no user is logged in!")
-      }
-    })
-
-  })
-}
 
 export default function sendData(obj, nodeName, id) {
   let postListRef
@@ -178,4 +178,4 @@ let getData = (nodeName, id) => {
 };
 
 // export { signUpUser, loginUser, checkUser, sendData, getData, signoutUser };
-export { sendData, loginUser, getData ,signUpUser,signUpAdmin};
+export { sendData, loginUser, getData ,signUpUser,signUpAdmin,checkUser,signoutUser};

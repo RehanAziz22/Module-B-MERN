@@ -36,10 +36,14 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import City from "../screens/adminscreens/city";
+import Country from "../screens/adminscreens/country";
+import { signoutUser } from "../config/firebasemethods";
+import Profile from "../screens/profile";
 const drawerWidth = 240;
 
 function MyDrawer(props) {
-    const { window, datasourse, routespath, value } = props;
+    const { window, datasourse, routespath, value, nodeName, userId,state } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const navigate = useNavigate();
 
@@ -49,17 +53,34 @@ function MyDrawer(props) {
     };
     const [auth, setAuth] = React.useState(true);
     const [anchorEl, setAnchorEl] = React.useState(null);
-  
+
     const handleChange = (event) => {
-      setAuth(event.target.checked);
+        setAuth(event.target.checked);
     };
-  
+
     const handleMenu = (event) => {
-      setAnchorEl(event.currentTarget);
+        setAnchorEl(event.currentTarget);
     };
-  
+
+    const signout = () => {
+        setAnchorEl(null);
+        signoutUser(`${nodeName}/${userId}`)
+            .then(() => {
+                // setLoader(false)
+                navigate(`/${nodeName}`)
+            })
+            .catch((err) => {
+                // setLoader(false)
+                console.log(err)
+            })
+    };
+    const profile = () => {
+        setAnchorEl(null);
+        navigate("profile",{state:state})
+
+    };
     const handleClose = () => {
-      setAnchorEl(null);
+        setAnchorEl(null);
     };
 
     //     const [navItems, setNaveItems] = React.useState([{
@@ -142,7 +163,7 @@ function MyDrawer(props) {
                     ml: { sm: `${drawerWidth}px` },
                 }}
             >
-                <Toolbar sx={{justifyContent:{xs:"space-between",sm:"right"}}}>
+                <Toolbar sx={{ justifyContent: { xs: "space-between", sm: "right" } }}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -187,8 +208,8 @@ function MyDrawer(props) {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={handleClose}>My account</MenuItem>
+                                <MenuItem onClick={profile}>Profile</MenuItem>
+                                <MenuItem onClick={signout}>Log Out</MenuItem>
                             </Menu>
                         </div>
                     )}
@@ -249,6 +270,9 @@ function MyDrawer(props) {
                         <Route path="signupAdmin" element={<SignupAdmin />} />
                         <Route path="studentquiz" element={<GiveQuiz />} />
                         <Route path="studentresult" element={<StudentResult />} />
+                        <Route path="country" element={<Country />} />
+                        <Route path="city" element={<City />} />
+                        <Route path="profile" element={<Profile />} />
                     </Routes>
                 </Box>
             </Box>
