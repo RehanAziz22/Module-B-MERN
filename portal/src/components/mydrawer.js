@@ -39,11 +39,13 @@ import Menu from '@mui/material/Menu';
 import City from "../screens/adminscreens/city";
 import Country from "../screens/adminscreens/country";
 import { signoutUser } from "../config/firebasemethods";
-import Profile from "../screens/profile";
+import Profile from "../screens/adminprofile";
+import AdminProfile from "../screens/adminprofile";
+import StudentProfile from "../screens/studentprofile";
 const drawerWidth = 240;
 
 function MyDrawer(props) {
-    const { window, datasourse, routespath, value, nodeName, userId,state } = props;
+    const { window, datasourse, routespath, value, nodeName, userId,state ,profileNode} = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const navigate = useNavigate();
 
@@ -76,7 +78,7 @@ function MyDrawer(props) {
     };
     const profile = () => {
         setAnchorEl(null);
-        navigate("profile",{state:state})
+        navigate(`${profileNode}`,{state:state})
 
     };
     const handleClose = () => {
@@ -272,7 +274,8 @@ function MyDrawer(props) {
                         <Route path="studentresult" element={<StudentResult />} />
                         <Route path="country" element={<Country />} />
                         <Route path="city" element={<City />} />
-                        <Route path="profile" element={<Profile />} />
+                        <Route path="adminprofile" element={<AdminProfile />} />
+                        <Route path="studentprofile" element={<StudentProfile />} />
                     </Routes>
                 </Box>
             </Box>

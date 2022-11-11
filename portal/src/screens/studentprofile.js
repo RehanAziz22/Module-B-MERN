@@ -1,8 +1,7 @@
 import { Box, Button, Container, Divider, Fade, FormControlLabel, Grid, Switch, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { getData } from '../config/firebasemethods';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SupportAgentIcon from '@mui/icons-material/SupportAgent';
@@ -10,34 +9,51 @@ import LockPersonIcon from '@mui/icons-material/LockPerson';
 import SchoolIcon from '@mui/icons-material/School';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-export default function Profile() {
+import CircularProgress from '@mui/material/CircularProgress';
+
+export default function StudentProfile() {
     const location = useLocation();
+    const [userDetails, setUserdetails] = useState([])
     const [profileDetails, setProfiledetails] = useState([])
     const [personalInfo, setPersonalInfo] = useState(false)
     const [accountDetails, setAccountDetails] = useState(false)
     const [courseDetails, setCourseDetails] = useState(false)
     const [helpSupport, setHelpSupport] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
-    const [showDropDown, setShowDropDown] = useState(false)
+    let [isloading, setLoader] = useState(false)
+    const params = useParams();
 
-    let getProfile = () => {
+    let getUserData = () => {
         // console.log(module)
+        getData(`users/`)
+        .then((res) => {
+            // console.log(res)
+            let arr = res.filter((x) => x.id == params.id)
+            console.log(arr)
+            let obj = arr.find((x) => x.email)
+            console.log(obj)
+            setUserdetails(obj)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+        }
+    let getProfile = () => {
         getData(`studentsRecord/`)
+            // setLoader(true)
             .then((res) => {
                 // console.log(res)
-                let obj = res.filter((x) => x.email)
+                let arr = res.filter((x) => x.email == location.state.userEmail)
+                // console.log(res)
+                let obj = arr.find((x) => x.email)
                 // console.log(obj)
-                let arr = obj.find((x) => x.email == location.state.email)
-                // console.log(arr)
-                setProfiledetails(arr)
-                if (arr.email == location.state.email) {
-                    setShowDropDown(true)
-                } else { setShowDropDown(false) }
-                // console.log(profileDetails)
+                setProfiledetails(obj)
+                setLoader(false)
             })
             .catch((err) => {
                 console.log(err)
             })
+
 
 
     }
@@ -45,10 +61,10 @@ export default function Profile() {
         if (location.state && location.state.userId) {
             // setUser(location.state)
             // console.log(location.state)
-            // console.log(Object.values(location.state.id))
         } else {
             // navigate("/");
         }
+        getUserData()
         getProfile()
     }, []);
 
@@ -62,20 +78,22 @@ export default function Profile() {
                 <Grid item xs={12} sm={12} md={12}>
                     <img src='https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=2000' width="200px" style={{ borderRadius: "50%", border: "3px solid" }} />
                 </Grid>
+                {
+                    // -------------------------------------------Name
+                }
                 <Grid item xs={12} sm={12} md={12}>
-                    {showDropDown ?
+                    {profileDetails.length !== 0 ?
                         <Typography gutterBottom variant="h5" component="div">
                             {profileDetails.firstName ? profileDetails.firstName.toUpperCase() : "--"}
                             {profileDetails.lastName ? profileDetails.lastName.toUpperCase() : "--"}
-                        </Typography>
-                        : <Typography gutterBottom variant="h5" component="div">
-                            {location.state.username ? location.state.username.toUpperCase() : "--"}
-                        </Typography>}
+                        </Typography> : !isloading ? <CircularProgress /> : "nodata"}
                 </Grid>
                 <Divider sx={{ margin: "15px 0px" }} />
 
-
-                {showDropDown ? <Grid item xs={12} sm={12} md={12} sx={{ padding: "0px !important", margin: "5px 0px" }}
+                {
+                    // -------------------------------------------Profile & Information
+                }
+                {profileDetails.length !== 0 && <Grid item xs={12} sm={12} md={12} sx={{ padding: "0px !important", margin: "5px 0px" }}
                 >
                     <Box
                         sx={{
@@ -150,8 +168,11 @@ export default function Profile() {
                             </Fade>
                         </Box>
                     </Box>
-                </Grid> : null}
-                {location.state.userId && <Grid item xs={12} sm={12} md={12} sx={{ padding: "0px !important", margin: "5px 0px" }}
+                </Grid>}
+                {
+                    // -------------------------------------------Account & Details
+                }
+                {profileDetails.length !== 0 && <Grid item xs={12} sm={12} md={12} sx={{ padding: "0px !important", margin: "5px 0px" }}
                 >
                     <Box
                         sx={{
@@ -178,21 +199,21 @@ export default function Profile() {
                                             Username :
                                         </Typography>
                                         <Typography gutterBottom variant="h6" sx={{ fontSize: { xs: "1rem" } }} component="div">
-                                            {location.state.username ? location.state.username : profileDetails.username?profileDetails.username:""}
+                                            {profileDetails.username ? profileDetails.username : ""}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={12} md={12} sx={{ display: "flex", justifyContent: "space-between" }}>
                                         <Typography gutterBottom variant="h6" sx={{ fontSize: { xs: "1rem" } }} component="div">
                                             Email :
                                         </Typography> <Typography gutterBottom variant="h6" sx={{ fontSize: { xs: "1rem" } }} component="div">
-                                            {location.state.email ? location.state.email : "--"}
+                                            {profileDetails.email ? profileDetails.email : "--"}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={12} md={12} sx={{ display: "flex", justifyContent: "space-between" }}>
                                         <Typography gutterBottom variant="h6" sx={{ fontSize: { xs: "1rem" } }} component="div">
                                             Password :
                                         </Typography> <Typography gutterBottom variant="h6" component="div" sx={{ display: "flex", alignItem: "center" }}>
-                                            <span style={{ marginRight: "10px" }}>{location.state.password ? (showPassword ? location.state.password : "********") : "----"}</span>
+                                            <span style={{ marginRight: "10px" }}>{userDetails.password ? (showPassword ? userDetails.password : "********") : "----"}</span>
                                             <Button sx={{ padding: "0px", display: "contents" }} onMouseEnter={() => setShowPassword(true)} onMouseLeave={() => setShowPassword(false)}>{showPassword ? <RemoveRedEyeIcon /> : <VisibilityOffIcon />}
                                             </Button>
                                         </Typography>
@@ -202,7 +223,10 @@ export default function Profile() {
                         </Box>
                     </Box>
                 </Grid>}
-                {showDropDown ? <Grid item xs={12} sm={12} md={12} sx={{ padding: "0px !important", margin: "5px 0px" }}
+                {
+                    // -------------------------------------------Course & Details
+                }
+                {profileDetails.length !== 0 && <Grid item xs={12} sm={12} md={12} sx={{ padding: "0px !important", margin: "5px 0px" }}
                 >
                     <Box
                         sx={{
@@ -249,8 +273,11 @@ export default function Profile() {
                             </Fade>
                         </Box>
                     </Box>
-                </Grid> : null}
-                {showDropDown ? <Grid item xs={12} sm={12} md={12} sx={{ padding: "0px !important", margin: "5px 0px" }}
+                </Grid>}
+                {
+                    // -------------------------------------------help & Support
+                }
+                {profileDetails.length !== 0 && <Grid item xs={12} sm={12} md={12} sx={{ padding: "0px !important", margin: "5px 0px" }}
                 >
                     <Box
                         sx={{
@@ -283,7 +310,7 @@ export default function Profile() {
                             </Fade>
                         </Box>
                     </Box>
-                </Grid> : null}
+                </Grid>}
 
 
             </Grid>

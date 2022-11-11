@@ -30,8 +30,8 @@ export default function AdminDashboard() {
         checkUser()
             .then((res) => {
                 console.log(res);
-                if (params.id == res) {
-                    setUserId(res);
+                if (params.id == res.uid) {
+                    setUserId(res.uid);
                     // getUserData();
                 }
                 else {
@@ -46,7 +46,8 @@ export default function AdminDashboard() {
             <MyDrawer
             nodeName="adminLogin"
             userId={userId}
-            state={{ userId: userId, email: location.state.email, username: location.state.username, password: location.state.password }}
+            profileNode={`adminprofile`}
+            state={{ userId: userId}}
                 datasourse={
                     [
                         {

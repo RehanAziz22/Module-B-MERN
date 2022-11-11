@@ -8,6 +8,7 @@ export default function StudentDashboard() {
     let navigate = useNavigate()
     const location = useLocation();
     const params = useParams();
+    let [userEmail, setUserEmail] = useState('');
     let [userId, setUserId] = useState('');
 
     // const getUserData = () => {
@@ -22,17 +23,17 @@ export default function StudentDashboard() {
     useEffect(() => {
         if (location.state && location.state.id) {
             // setUser(location.state)
-            // console.log(location.state)
+            console.log(location.state)
             // console.log(Object.values(location.state.id))
         } else {
             // navigate("/");
         };
         checkUser()
             .then((res) => {
-                // console.log(res);
-                if (params.id == res) {
-                    setUserId(res);
-                    console.log(userId)
+                console.log(res);
+                if (params.id == res.uid) {
+                    setUserEmail(res.email);
+                    setUserId(res.uid)
                     // getUserData();
                 }
                 else {
@@ -47,7 +48,9 @@ export default function StudentDashboard() {
             <MyDrawer
                 nodeName="studentLogin"
                 userId={userId}
-                state={{ userId: userId, email: location.state.email, username: location.state.username, password: location.state.password }}
+                profileNode={`studentprofile`}
+                // state={{ userId: userId, email: location.state.email, username: location.state.username, password: location.state.password }}
+                state={{ userId:userId,userEmail: userEmail }}
                 datasourse={[
                     {
                         route: "studentquiz",
