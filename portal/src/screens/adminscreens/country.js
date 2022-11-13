@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Divider, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import MyTextField from '../../components/mytextfield';
-import sendData from '../../config/firebasemethods';
+import sendData, { getData } from '../../config/firebasemethods';
 import Button from '@mui/material/Button';
 import MySelect from '../../components/mySelect';
 import Box from '@mui/material/Box';
@@ -10,11 +10,13 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
+import DenseTable from '../../components/table';
 
 export default function Country() {
   let [module, setModule] = useState({});
   let [countryName, setCountryName] = useState("");
   let [countryCode, setCountryCode] = useState('');
+  let [countryData, setCountryData] = useState([]);
   let [currency, setCurrency] = useState('');
   let [btnDisabled, setBtnDisabled] = useState(false);
   // database function 
@@ -26,15 +28,30 @@ export default function Country() {
     module.currency = currency
     sendData(module,
       `country/`)
-      .then(((success) => { console.log(success,emptyfields())}))
+      .then(((success) => { console.log(success, emptyfields()) }))
       .catch((err => { console.log(err) }))
   }
 
-let emptyfields =()=>{
-  setCountryName('')
-  setCountryCode('')
-  setCurrency('')
-}
+  let getCountryData = () => {
+    console.log(module)
+
+    getData(`country/`)
+      .then((res) => {
+        setCountryData(res)
+        console.log(res)
+      })
+      .catch((err) => {
+        alert(err)
+      })
+  }
+  useEffect(() => { getCountryData() }, [])
+
+  let emptyfields = () => {
+    setCountryName('')
+    setCountryCode('')
+    setCurrency('')
+  }
+
   return (
     <>
       <Container sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", backgroundColor: "white", padding: "15px", borderRadius: "5px", width: { xs: "100%", md: "100%" } }}>
@@ -82,6 +99,23 @@ let emptyfields =()=>{
             <Button variant="contained"
               sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} onClick={addCountry}>Add</Button>
           </Grid>
+          <DenseTable
+              datasource={countryData}
+              Cols={[
+                {
+                  key: "id",
+                  displayName: "Id",
+                },
+                {
+                  key: "countryName",
+                  displayName: "Country Name",
+                },
+                {
+                  key: "countryCode",
+                  displayName: "Country Code",
+                },
+              ]}
+            />
         </Grid>
       </Container></>
   )

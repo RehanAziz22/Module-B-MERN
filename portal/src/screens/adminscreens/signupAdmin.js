@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 // import PasswordChecklist from "react-password-checklist"
 import CircularProgress from '@mui/material/CircularProgress';
-import { signUpAdmin } from '../../config/firebasemethods';
+import { getData, signUpAdmin } from '../../config/firebasemethods';
 import MyTextField from '../../components/mytextfield';
 import generateUsername from 'generate-username-from-email';
+import DenseTable from '../../components/table';
 
 function SignupAdmin() {
     // let [username, setUserName] = useState("username")
@@ -16,9 +17,10 @@ function SignupAdmin() {
     let [username, setUserName] = useState("username")
     let [value, setValue] = useState("none")
     let [isloading, setLoader] = useState(false)
+    let [adminData, setAdminData] = useState([])
     let navigate = useNavigate()
-    
-     username = generateUsername(email)
+
+    username = generateUsername(email)
     console.log(username)
     let AdminsignUp = () => {
         setLoader(true)
@@ -33,9 +35,23 @@ function SignupAdmin() {
                 // ..
             });
     }
+    let getCountryData = () => {
+        console.log(module)
+
+        getData(`admin/`)
+            .then((res) => {
+                setAdminData(res)
+                console.log(res)
+            })
+            .catch((err) => {
+                alert(err)
+            })
+    }
+    useEffect(() => { getCountryData() }, [])
+
     return (
         <>
-            <Container sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", backgroundColor: "white", padding: "15px", borderRadius: "5px", width: { xs: "100%", md: "80%" } }}>
+            <Container sx={{ boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", backgroundColor: "white", padding: "15px", borderRadius: "5px", width: { xs: "100%", md: "100%" } }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={12} md={12}>
                         <Typography variant="h5" sx={{ fontWeight: "bold", color: "black", fontFamily: "Roboto,Helvetica,Arial,sans-serif" }} >Create Admin</Typography>
@@ -67,6 +83,27 @@ function SignupAdmin() {
 
                         <Button fullWidth sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );", color: "white" }} onClick={AdminsignUp}>{isloading ? <CircularProgress color="inherit" /> : "Create"}</Button>
                     </Grid>
+                      <DenseTable
+                            datasource={adminData}
+                            Cols={[
+                                {
+                                    key: "id",
+                                    displayName: "Id",
+                                },
+                                {
+                                    key: "username",
+                                    displayName: "Username",
+                                },
+                                {
+                                    key: "email",
+                                    displayName: "Email",
+                                },
+                                {
+                                    key: "password",
+                                    displayName: "Password",
+                                },
+                            ]}
+                        />
                 </Grid>
             </Container>
         </>

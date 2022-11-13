@@ -6,49 +6,45 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Grid } from '@mui/material';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+export default function DenseTable(props) {
+  const { datasource, Cols } = props;
 
-export default function DenseTable() {
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Grid item xs={12} sm={12} md={12} sx={{ overflow: "hidden", width: { xs: "300px", md: "600px", lg: "100%" } }}>
+             
+      {Cols && Array.isArray(Cols) && (
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 600 }} size="small" aria-label="a dense table">
+            <TableHead className='drawer' >
+              <TableRow>
+                <TableCell sx={{color:'white'}}>s#</TableCell>
+                {Cols.map((y, i) => (
+                  <TableCell sx={{color:'white'}} key={i}>{y.displayName}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {datasource &&
+                Array.isArray(datasource) &&
+                datasource.length > 0 ? (
+                datasource.map((x, i) => (
+                  <TableRow key={i}>
+                    <TableCell>{i + 1}</TableCell>
+                    {Cols.map((y, ind) => (
+                      <TableCell key={ind}>{x[y.key]}</TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <h1>No Data Found</h1>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
+    </Grid>
   );
 }

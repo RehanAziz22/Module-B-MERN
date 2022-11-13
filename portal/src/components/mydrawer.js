@@ -22,7 +22,7 @@ import { Route, Routes, Link, useNavigate } from "react-router-dom";
 // import Feedback from "../screens/dashboard_screens/feedback";
 // import Notification from "../screens/dashboard_screens/notification";
 // import AllData from "../screens/dashboard_screens/data";
-import StudentForm from "../screens/studentform";
+import StudentForm from "../screens/registeration";
 import CourseScreen from "../screens/adminscreens/courseScreen";
 import Result from "../screens/adminscreens/result";
 import Students from "../screens/adminscreens/students";
@@ -42,6 +42,7 @@ import { signoutUser } from "../config/firebasemethods";
 import Profile from "../screens/adminprofile";
 import AdminProfile from "../screens/adminprofile";
 import StudentProfile from "../screens/studentprofile";
+import Trainer from "../screens/adminscreens/trainerData";
 const drawerWidth = 240;
 
 function MyDrawer(props) {
@@ -69,7 +70,8 @@ function MyDrawer(props) {
         signoutUser(`${nodeName}/${userId}`)
             .then(() => {
                 // setLoader(false)
-                navigate(`/${nodeName}`)
+                // navigate(`/login/${nodeName}`)
+                navigate(`/login/studentLogin`)
             })
             .catch((err) => {
                 // setLoader(false)
@@ -276,6 +278,7 @@ function MyDrawer(props) {
                         <Route path="city" element={<City />} />
                         <Route path="adminprofile" element={<AdminProfile />} />
                         <Route path="studentprofile" element={<StudentProfile />} />
+                        <Route path="trainerRecords" element={<Trainer />} />
                     </Routes>
                 </Box>
             </Box>

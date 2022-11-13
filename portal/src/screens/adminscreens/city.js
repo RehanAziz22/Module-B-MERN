@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Divider, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from '@mui/material';
 import MyTextField from '../../components/mytextfield';
-import sendData from '../../config/firebasemethods';
+import sendData, { getData } from '../../config/firebasemethods';
 import Button from '@mui/material/Button';
 import MySelect from '../../components/mySelect';
 import Box from '@mui/material/Box';
@@ -10,6 +10,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
+import DenseTable from '../../components/table';
 
 export default function City() {
   let [module, setModule] = useState({});
@@ -18,6 +19,7 @@ export default function City() {
   let [countryName, setCountryName] = useState("");
   let [cityCode, setCityCode] = useState('');
   let [cityName, setCityName] = useState('');
+  let[cityData,setCityData]=useState([])
   // database function 
   // send data in Database
   let addCity = () => {
@@ -30,6 +32,19 @@ export default function City() {
       .then(((success) => { console.log(success, emptyfields()) }))
       .catch((err => { console.log(err) }))
   }
+  let getCountryData = () => {
+    console.log(module)
+
+    getData(`cities/`)
+      .then((res) => {
+        setCityData(res)
+        console.log(res)
+      })
+      .catch((err) => {
+        alert(err)
+      })
+  }
+  useEffect(() => { getCountryData() }, [])
 
   let emptyfields = () => {
     setCountryName('')
@@ -86,6 +101,27 @@ export default function City() {
             <Button variant="contained"
               sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} onClick={addCity}>Add</Button>
           </Grid>
+          <DenseTable
+              datasource={cityData}
+              Cols={[
+                {
+                  key: "id",
+                  displayName: "Id",
+                },
+                {
+                  key: "cityName",
+                  displayName: "City Name",
+                },
+                {
+                  key: "cityCode",
+                  displayName: "City Code",
+                },
+                {
+                  key: "countryName",
+                  displayName: "Country",
+                },
+              ]}
+            />
         </Grid>
       </Container></>
   )

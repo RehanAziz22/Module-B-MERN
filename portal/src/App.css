@@ -8,6 +8,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: rgb(79, 79, 79);
+  overflow: hidden;
 }
 .arrowimg{
   width: 40% !important;
@@ -24,4 +25,23 @@
     margin: 0px !important;
     box-shadow: none !important;
   }
+}
+:root{
+  --primary:#111111;
+  --secondary:linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );
+  --white:#fff;
+}
+.drawer{
+  background-image: var(--secondary);
+  color:var(--white)
+}
+.tableCell{
+  color:var(--white)
+
+}
+.homebgimage{
+  background-image: url(https://i.tribune.com.pk/media/images/2109856-whattodoifyourkidcheatsingamesorontestsxx-1575194902/2109856-whattodoifyourkidcheatsingamesorontestsxx-1575194902.jpg);
+  background-position: center;
+  background-repeat:no-repeat;
+  background-size: cover; 
 }

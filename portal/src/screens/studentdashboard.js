@@ -60,14 +60,7 @@ export default function StudentDashboard() {
                         route: "studentresult",
                         name: "Result",
                     },
-                    {
-                        route: "adminDashboard",
-                        name: "adminDashboard",
-                    },
-                    {
-                        route: "adminDashboard/*",
-                        name: "adminDashboard",
-                    },
+                 
                 ]}
             />
         </div>

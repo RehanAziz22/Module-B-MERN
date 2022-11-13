@@ -32,8 +32,8 @@ export default function QuizApp() {
     let percentage = ((score / quizQuestion.length) * 100);
     // let marks = ((Math.floor(percentage)*50)/100)
     let marks = ((Math.floor(percentage) * parseInt(quizScore)) / 100);
-console.log(parseInt(quizScore))
-console.log(marks)
+    console.log(parseInt(quizScore))
+    console.log(marks)
     let [selectedCourseTitle, setSelectedCourceTitle] = useState("")
     let [rollNum, setRollNum] = useState("")
     let getResultData = () => {

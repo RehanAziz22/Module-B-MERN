@@ -7,12 +7,13 @@ import {
 import AdminLogin from "../screens/adminLogin";
 import AdminScreen from "../screens/admindashboard";
 import Home from "../screens/home";
-import StudentForm from "../screens/studentform";
+import StudentForm from "../screens/registeration";
 import QuizApp from "../screens/studentsScreen/givequiz";
 import AdminDashboard from "../screens/admindashboard";
 import StudentLogin from "../screens/studentLogin";
 import StudentDashboard from "../screens/studentdashboard";
 import SignupAdmin from "../screens/adminscreens/signupAdmin";
+import Login from "../screens/login";
 
 export default function AppRouter() {
     return (
@@ -20,9 +21,9 @@ export default function AppRouter() {
 
 
             <Routes>
-                <Route path="/" element={<Home />} />
-
-                <Route path="registration" element={<StudentForm />} />
+                <Route path="/*" element={<Home />} />
+                {/* <Route path="registration" element={<StudentForm />} />
+                <Route path="login/*" element={<Login />} /> */}
                 <Route path="adminLogin" element={<AdminLogin />} />
                 <Route path="studentLogin" element={<StudentLogin />} />
                 <Route path="studentLogin/:id/*" element={<StudentDashboard />} />

@@ -71,6 +71,10 @@ export default function AdminDashboard() {
                             name: "Create Admin",
                         },
                         {
+                            route: "trainerRecords",
+                            name: "Trainer Records",
+                        },
+                        {
                             route: "country",
                             name: "Country",
                         },

@@ -46,7 +46,7 @@ export default function Quiz() {
   let sendQuizData = () => {
     console.log(module)
 
-    sendData( module,
+    sendData(module,
       `Quiz/`)
       .then((quiz => { console.log(quiz) }))
       .catch((err => { console.log(err) }))
@@ -69,30 +69,32 @@ export default function Quiz() {
     arrQuestions[key] = val;
     setArrQuestions({ ...arrQuestions })
     console.log(arrQuestions)
-    
+
   }
-  
+
   //------------------
   const addOption = () => {
     // 👇️ push to end of state array
     setArrOptions([option, ...arrOptions]);
     fillQuestion("options", arrOptions)
   };
-  
+
   // set Correct option
   // const handleCheckBox = (e) => {
-    //   setCheckedOptions(e.target.checked)
-    //   // fillModule({ ...correctAnswer, correct: e.target.checked })
-    //   console.log(correctAnswer)
-    // }
-    
-    const submitQuestion = () => {
-      setAllQuestions([...allQuestions,arrQuestions]);
-      console.log(allQuestions)
-      fillModule("allquestion",allQuestions)
-      console.log(allQuestions)
+  //   setCheckedOptions(e.target.checked)
+  //   // fillModule({ ...correctAnswer, correct: e.target.checked })
+  //   console.log(correctAnswer)
+  // }
+
+  const submitQuestion = () => {
+    setAllQuestions([...allQuestions, arrQuestions]);
+    console.log(allQuestions)
+    fillModule("allquestion", allQuestions)
+    console.log(allQuestions)
+    setArrOptions([])
+    setOption('')
   }
-  
+
   const lockQuizPage = () => {
     setLockQuiz(false)
   }
@@ -129,14 +131,14 @@ export default function Quiz() {
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3} >
-            <MySelect
-              label={"Course"}
-              valueField="fullName"
-              displayField="fullName"
-              datasource={course}
-              disabled={btnDisabled}
-              onChange={(e) => { fillModule("course", e.target.value) }}
-            />
+              <MySelect
+                label={"Course"}
+                valueField="fullName"
+                displayField="fullName"
+                datasource={course}
+                disabled={btnDisabled}
+                onChange={(e) => { fillModule("course", e.target.value) }}
+              />
             </Grid>
             <Grid item xs={12} sm={6} md={1} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Button variant="contained"
@@ -152,10 +154,11 @@ export default function Quiz() {
                   label={"Question"}
                   required={true}
                   type={"text"}
+                  value={arrQuestions.question}
                   onChange={(e) => {
                     fillQuestion("question", e.target.value)
                   }}
-                />
+                /> 
               </Grid>
               <Grid item xs={12} sm={12} md={12} >
                 {/*------------------------------------------- check Box  */}
@@ -186,6 +189,7 @@ export default function Quiz() {
                   label={"Option"}
                   required={true}
                   type={"text"}
+                  value={option}
                   onChange={(e) => { setOption(e.target.value) }}
                 />
 
@@ -203,10 +207,11 @@ export default function Quiz() {
             </>}</>}
 
           {!lockQuiz && <>
-          <Grid item xs={12} sm={12} md={12}>
-            <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} onClick={sendQuizData}>Submit Form</Button>
-          </Grid>
-          {/* <Grid item xs={12} sm={12} md={12}>
+            
+            <Grid item xs={12} sm={12} md={12}>
+              <Button variant="contained" sx={{ backgroundImage: "linear-gradient( 109.6deg, rgb(107 155 227) 11.2%, rgba(110,123,251,1) 91.1% );" }} onClick={sendQuizData}>Submit Form</Button>
+            </Grid>
+            {/* <Grid item xs={12} sm={12} md={12}>
           {question.map((e,i)=>{
             const{quizName,quizScore,course} = e
             return <Grid container spacing={2}>
