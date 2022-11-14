@@ -6,6 +6,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
+import userimg from '../assets/man-avatar-profile-round-icon_24640-14044.webp'
 import CircularProgress from '@mui/material/CircularProgress';
 export default function AdminProfile() {
     const location = useLocation();
@@ -48,7 +49,7 @@ export default function AdminProfile() {
                     <Typography variant="h5" sx={{ fontWeight: "bold", color: "black", fontFamily: "Roboto,Helvetica,Arial,sans-serif" }} >Profile</Typography>
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
-                    <img src='https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=2000' width="200px" style={{ borderRadius: "50%", border: "3px solid" }} />
+                    <img src={userimg} width="200px" style={{ borderRadius: "50%", border: "3px solid" }} />
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
                     

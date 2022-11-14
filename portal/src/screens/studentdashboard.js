@@ -1,9 +1,10 @@
-import { Button, Container } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import MyDrawer from '../components/mydrawer'
 import { checkUser, getData } from '../config/firebasemethods'
-
+import quizimg from '../assets/3406808.png'
+import resultimg from '../assets/icons8-result-64.png'
+import complainimg from '../assets/icons8-complaint-64.png'
 export default function StudentDashboard() {
     let navigate = useNavigate()
     const location = useLocation();
@@ -31,13 +32,13 @@ export default function StudentDashboard() {
         checkUser()
             .then((res) => {
                 console.log(res);
-                if (params.id == res.uid) {
+                if (params.id === res.uid) {
                     setUserEmail(res.email);
                     setUserId(res.uid)
                     // getUserData();
                 }
                 else {
-                    navigate("/studentLogin")
+                    navigate("/login/studentLogin")
                 }
             })
 
@@ -55,11 +56,19 @@ export default function StudentDashboard() {
                     {
                         route: "studentquiz",
                         name: "Quiz",
+                        img: quizimg
                     },
                     {
                         route: "studentresult",
                         name: "Result",
+                        img: resultimg
                     },
+                    {
+                        route: "",
+                        name: "Complain Box",
+                        img: complainimg
+                    },
+                    
                  
                 ]}
             />

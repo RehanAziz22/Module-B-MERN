@@ -1,4 +1,4 @@
-import { Box, Button, Container, Divider, Fade, FormControlLabel, Grid, Switch, Typography } from '@mui/material';
+import { Box, Button, Container, Divider, Fade, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom';
 import { getData } from '../config/firebasemethods';
@@ -10,7 +10,7 @@ import SchoolIcon from '@mui/icons-material/School';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import CircularProgress from '@mui/material/CircularProgress';
-
+import userimg from '../assets/man-avatar-profile-round-icon_24640-14044.webp'
 export default function StudentProfile() {
     const location = useLocation();
     const [userDetails, setUserdetails] = useState([])
@@ -28,7 +28,7 @@ export default function StudentProfile() {
         getData(`users/`)
         .then((res) => {
             // console.log(res)
-            let arr = res.filter((x) => x.id == params.id)
+            let arr = res.filter((x) => x.id === params.id)
             console.log(arr)
             let obj = arr.find((x) => x.email)
             console.log(obj)
@@ -43,7 +43,7 @@ export default function StudentProfile() {
             // setLoader(true)
             .then((res) => {
                 // console.log(res)
-                let arr = res.filter((x) => x.email == location.state.userEmail)
+                let arr = res.filter((x) => x.email === location.state.userEmail)
                 // console.log(res)
                 let obj = arr.find((x) => x.email)
                 // console.log(obj)
@@ -63,10 +63,10 @@ export default function StudentProfile() {
             // console.log(location.state)
         } else {
             // navigate("/");
-        }
-        getUserData()
-        getProfile()
-    }, []);
+        };
+        getUserData();
+        getProfile();
+    });
 
 
     return (<>
@@ -76,7 +76,7 @@ export default function StudentProfile() {
                     <Typography variant="h5" sx={{ fontWeight: "bold", color: "black", fontFamily: "Roboto,Helvetica,Arial,sans-serif" }} >Profile</Typography>
                 </Grid>
                 <Grid item xs={12} sm={12} md={12}>
-                    <img src='https://img.freepik.com/premium-vector/man-avatar-profile-round-icon_24640-14044.jpg?w=2000' width="200px" style={{ borderRadius: "50%", border: "3px solid" }} />
+                    <img alt='userimg' src={userimg} width="200px" style={{ borderRadius: "50%", border: "3px solid" }} />
                 </Grid>
                 {
                     // -------------------------------------------Name

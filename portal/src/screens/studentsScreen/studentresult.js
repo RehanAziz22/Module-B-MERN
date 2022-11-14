@@ -66,6 +66,7 @@ export default function StudentResult() {
               datasource={allResults}
             />
           </Grid>
+          
           <Grid item xs={12} sm={12} md={5}>
             <MyTextField
               label="Enter Roll No"
@@ -100,7 +101,7 @@ export default function StudentResult() {
                       </TableRow>
                       <TableRow align="left">
                         <TableCell align="left">Result </TableCell>
-                        <TableCell align="left">{row.result}</TableCell>
+                        <TableCell align="left">{row.result? row.result : (row.marks<50?"D":row.marks<65?"C":row.marks<75?"B":row.marks<90?"A":"---")}</TableCell>
                       </TableRow>
                       <TableRow align="left">
                         <TableCell align="left">Marks </TableCell>

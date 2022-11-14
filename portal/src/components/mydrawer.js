@@ -17,7 +17,7 @@ import DvrSharpIcon from "@mui/icons-material/DvrSharp";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Route, Routes, Link, useNavigate } from "react-router-dom";
+import { Route, Routes, Link, useNavigate, useLocation, useParams } from "react-router-dom";
 // import Message from "../screens/dashboard_screens/messages";
 // import Feedback from "../screens/dashboard_screens/feedback";
 // import Notification from "../screens/dashboard_screens/notification";
@@ -43,19 +43,21 @@ import Profile from "../screens/adminprofile";
 import AdminProfile from "../screens/adminprofile";
 import StudentProfile from "../screens/studentprofile";
 import Trainer from "../screens/adminscreens/trainerData";
+import { Button, Grid } from "@mui/material";
 const drawerWidth = 240;
 
 function MyDrawer(props) {
-    const { window, datasourse, routespath, value, nodeName, userId,state ,profileNode} = props;
+    const { window, datasourse, routespath, value, nodeName, userId, state, profileNode } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const navigate = useNavigate();
-
-
+    const location = useLocation();
+    const [auth, setAuth] = React.useState(true);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [dashboardDisabled, setDashboardDisabled] = React.useState(true)
+    const params = useParams();
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
-    const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleChange = (event) => {
         setAuth(event.target.checked);
@@ -80,13 +82,26 @@ function MyDrawer(props) {
     };
     const profile = () => {
         setAnchorEl(null);
-        navigate(`${profileNode}`,{state:state})
+        navigate(`${profileNode}`, { state: state })
+        setDashboardDisabled(false)
 
     };
     const handleClose = () => {
         setAnchorEl(null);
     };
+    React.useEffect(() => {
+        console.log(params.id)
+        // if (location.pathname === `/adminLogin/${params.id}`) {
+        //     setDashboardDisabled(true)
+        // }
+        // if (location.pathname === `/studentLogin/${params.id}`) {
+        //     setDashboardDisabled(true)
+        // } 
+        if (location.pathname.includes(`/adminLogin/${params.id}`)) {
+            setDashboardDisabled(true)
 
+        }
+    }, [])
     //     const [navItems, setNaveItems] = React.useState([{
     //         path: "/",
     //         name: "Home",
@@ -116,9 +131,13 @@ function MyDrawer(props) {
     const drawer = (
 
         <div>
-            <Typography variant="h6" sx={{ my: 2, textAlign: "center" }}>
-                Dashboard
-            </Typography>
+            <Button sx={{ width: "100%" }} onClick={() => {
+                navigate(location.pathname.includes('/adminLogin/') ? `/adminLogin/${params.id}` : `/studentLogin/${params.id}`); setDashboardDisabled(true)
+            }}>
+                <Typography variant="h6" sx={{ my: 2, textAlign: "center" }}>
+                    Dashboard
+                </Typography>
+            </Button>
             <Divider />
             {/* <List sx={{ display: { xs: 'block', sm: 'none' } }}>
                         {navItems.map((item, i) => (
@@ -139,10 +158,12 @@ function MyDrawer(props) {
                 {datasourse.map((text, index) => (
                     <ListItem key={index} disablePadding>
                         <ListItemButton onClick={() => {
-                            navigate(text.route)
+                            navigate(text.route);
+                            setDashboardDisabled(false)
                         }}>
                             <ListItemIcon>
-                                {<DvrSharpIcon />}
+                                {/* {<DvrSharpIcon />} */}
+                                <img alt='bullet point' src={"https://img.icons8.com/external-others-pike-picture/50/null/external-bullet-speed-fast-motion-others-pike-picture.png"} width="30px" height="40px" />
                             </ListItemIcon>
                             <ListItemText primary={text.name} />
                         </ListItemButton>
@@ -262,9 +283,37 @@ function MyDrawer(props) {
                 sx={{
                     flexGrow: 1,
                     p: 3,
-                    width: { sm: `calc(100% - ${drawerWidth}px)` },
+                    // px: 3,
+                    // py: 0,
+                    width: { sm: `calc(100% - ${drawerWidth}px)`, lg:"1000px"},
                 }}
             >
+                {dashboardDisabled &&
+                    <Container sx={{boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", borderRadius: "5px",backgroundColor: "white", minHeight: "80vh", padding: "0px", minWidth: "100%" }}>
+                        <Grid container spacing={2} sx={{ marginLeft: "-10px" }}>
+                            {datasourse.map((text, index) => (
+                                <Grid item xs={12} sm={6} md={4} className="displayCard" sx={{ padding: '10px', }}>
+
+                                    <ListItem key={index} disablePadding sx={{
+                                        backgroundColor: "#00c4ff", border: "1px solid",
+                                        borderRadius: "10px;",boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;"
+                                    }}>
+                                        <ListItemButton 
+                                        // sx={{flexDirection:"column"}}
+                                        onClick={() => {
+                                            navigate(text.route);
+                                            setDashboardDisabled(false)
+                                        }}>
+                                            <ListItemIcon>
+                                                <img src={text.img} width="100px" height="120px" />
+                                            </ListItemIcon>
+                                            <ListItemText sx={{ textAlign: "center", color: "white", fontWeight: "bold" }} primary={text.name} />
+                                        </ListItemButton>
+                                    </ListItem>
+                                </Grid>
+                            ))}
+                        </Grid>
+                    </Container>}
                 <Box>
                     <Routes>
                         <Route path="students" element={<Students />} />

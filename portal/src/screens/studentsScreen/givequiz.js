@@ -51,9 +51,10 @@ export default function QuizApp() {
     let sendQuizData = () => {
         module.marks = marks;
         module.course = selectedCourse
+        module.courseTitle = selectedCourseTitle
         console.log(module)
         sendData(module,
-            `quizresult/${selectedCourse}/${selectedCourseTitle}`)
+            `quizresult/`)
             .then((quiz => { console.log(quiz) }))
             .catch((err => { console.log(err) }))
     }

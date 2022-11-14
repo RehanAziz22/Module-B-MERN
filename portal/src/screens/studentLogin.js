@@ -29,7 +29,7 @@ function StudentLogin() {
 
     }
     return (
-        <Container >
+        <Container sx={{padding:"0px"}}>
                 <Box sx={{
                 // width: { sm: "80%", md: "50%", lg: "40%" },
                 display: "flex",

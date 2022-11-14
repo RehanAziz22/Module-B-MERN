@@ -121,28 +121,28 @@ function Home(props) {
                     {drawer}
                 </Drawer>
             </Box>
-            <Box component="main" sx={{ p: 3 }}>
-                <Toolbar />
+            <Box component="main" sx={{ p: 3,width:"100%" }}>
+                {/* <Toolbar /> */}
                 {btnDisabled &&
-                    <Container sx={{ display: "flex", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", backgroundColor: "white", padding: "15px", borderRadius: "5px", width: { xs: "100%", md: "100%" }, }}>
+                    <Container maxWidth={"xl"} sx={{ display: "flex", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", backgroundColor: "white", padding: "15px", borderRadius: "5px", width: { xs: "100%", md: "100%" }, }}>
                         <Grid containe spacing={2}>
                             <Grid item xs={12} sm={12} sx={{ position: "relative" }}>
                                 <Box className='homebgimage' sx={{ width: "100%", marginLeft: "auto",height:"60vh" }}>
                                     <Box  sx={{ width: "100%", marginLeft: "auto",height:"60vh",backgroundColor:"black",opacity:"0.3" }}>
-                                    <img src={"https://i.tribune.com.pk/media/images/2109856-whattodoifyourkidcheatsingamesorontestsxx-1575194902/2109856-whattodoifyourkidcheatsingamesorontestsxx-1575194902.jpg"} height="200" width="600" style={{width: "100%", height: "400px", opacity: "0" }} />
+                                    <img src={"https://i.tribune.com.pk/media/images/2109856-whattodoifyourkidcheatsingamesorontestsxx-1575194902/2109856-whattodoifyourkidcheatsingamesorontestsxx-1575194902.jpg"} height="200" width="600" style={{width: "100%", height: "600px", opacity: "0" }} />
                                 
                                 </Box></Box>
                                 <Box  sx={{ position: "absolute", top: "70px", left: "30px", textAlign: "left", color: "#99F6F3" }}>
                                     <h1 style={{margin:"0px"}}>STUDY WITH</h1>
-                                    <h3 style={{margin:"5px 0px"}}>
+                                    <h3 style={{margin:"15px 0px"}}>
 
                                         GROUP OF
                                     </h3>
-                                    <h2 style={{margin:"5px 0px"}}>Professionals</h2>
+                                    <h2 style={{margin:"15px 0px"}}>Professionals</h2>
                                     <MyButton 
                                     label={"Register"}
                                     backgroundColor={"#99F6F3"}
-                                    onclick={()=>{navigate('/registeration')}}/>
+                                    onClick={()=>{navigate('/registration');setBtnDisabled(false)}}/>
                                 </Box>
 
                             </Grid>
