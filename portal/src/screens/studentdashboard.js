@@ -44,7 +44,7 @@ export default function StudentDashboard() {
 
     }, [])
     return (
-        <div style={{ paddingTop: "80px" }}>
+        <div style={{ paddingTop: "80px",width:"100%" }}>
 
             <MyDrawer
                 nodeName="studentLogin"

@@ -48,7 +48,7 @@ export default function AdminDashboard() {
 
     }, [])
     return (
-        <div style={{ paddingTop: "80px" }}>
+        <div style={{ paddingTop: "80px",width:"100%" }}>
 
             <MyDrawer
             nodeName="adminLogin"

@@ -292,7 +292,7 @@ function MyDrawer(props) {
                     <Container sx={{boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;", borderRadius: "5px",backgroundColor: "white", minHeight: "80vh", padding: "0px", minWidth: "100%" }}>
                         <Grid container spacing={2} sx={{ marginLeft: "-10px" }}>
                             {datasourse.map((text, index) => (
-                                <Grid item xs={12} sm={6} md={4} className="displayCard" sx={{ padding: '10px', }}>
+                                <Grid item xs={12} sm={12} md={4} xl={4} className="displayCard" sx={{ padding: '10px', }}>
 
                                     <ListItem key={index} disablePadding sx={{
                                         backgroundColor: "#00c4ff", border: "1px solid",

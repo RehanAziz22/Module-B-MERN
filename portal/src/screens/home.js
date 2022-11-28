@@ -76,7 +76,7 @@ function Home(props) {
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', width:"100%"}}>
             <AppBar component="nav">
                 <Toolbar>
                     <IconButton
