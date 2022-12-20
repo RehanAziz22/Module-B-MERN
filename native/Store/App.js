@@ -19,38 +19,15 @@ import {
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Home from './Home';
-import Details from './cardDetails';
+import Home from './screens/Home';
+import Details from './screens/singleProduct';
+import AppNavigation from './appNavigation';
 const Stack = createNativeStackNavigator();
 
 function App() {
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} options={{
-          // title: 'My home',
-          headerStyle: {
-            backgroundColor: 'royalblue',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }} />
-        <Stack.Screen name="Details" component={Details} 
-        options={{
-          // title: 'My home',
-          headerStyle: {
-              backgroundColor: 'royalblue',
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+   <AppNavigation/>
   );
 }
 export default App;

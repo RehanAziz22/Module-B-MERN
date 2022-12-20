@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "223269500320",
+    "project_id": "reacttodo-2002",
+    "storage_bucket": "reacttodo-2002.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223269500320:android:cf55903beff49f22e660c5",
+        "android_client_info": {
+          "package_name": "com.todoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "223269500320-ee5ttbagf7jb1rc7m3d9ur6paf7bg3c5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTSuDHV-EQto9jHeuB28wSZJVvQtB5af4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "223269500320-ee5ttbagf7jb1rc7m3d9ur6paf7bg3c5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
