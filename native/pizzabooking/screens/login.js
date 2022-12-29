@@ -1,0 +1,50 @@
+import React, { useState } from 'react'
+import { ActivityIndicator, Text, TextInput, ToastAndroid, TouchableOpacity, Image,View } from 'react-native'
+import styles from './style'
+import auth from '@react-native-firebase/auth';
+import database from '@react-native-firebase/database';
+export default function Login({ navigation }) {
+  let [email, setEmail] = useState('')
+  let [password, setPassword] = useState('')
+  let [isloading, setLoader] = useState(false)
+  let login = () => {
+    setLoader(true)
+    auth().signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in
+        var userId = userCredential.user.uid;
+        // console.log(userId)
+        navigation.navigate("BottomNav", userId)
+        ToastAndroid.show("Login Successfully", ToastAndroid.SHORT)
+        setLoader(false)
+
+        // ...
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        setLoader(false)
+      });
+
+  }
+
+  return (<>
+    <View style={[styles.flexCenter, styles._black,styles.bgBlack, styles.textBlack, styles.w100, styles.h100, styles.p3]}>
+      <Image source={{ uri: "https://img.icons8.com/doodle/480/null/pizza--v1.png" }} style={{ width: 200, height: 200 }} />
+      <Text style={[styles.textWarning, styles.fs1, styles.mb4, styles.w100, styles.textCenter, styles.mb2, styles.textBold]}>Pizza Buzz </Text>
+      <Text style={[styles.textWhite, styles.fs5, styles.mb4, styles.w100, styles.textCenter, styles.mb2, styles.textBold]}>Create Account</Text>
+
+      <TextInput placeholderTextColor={"black"} placeholder='email@gmail.com' onChangeText={(e) => { setEmail(e) }} style={[styles.mb2, styles.textBlack, styles.input, styles.px2]} />
+      <TextInput placeholder='**********' onChangeText={(e) => { setPassword(e) }} placeholderTextColor={"black"} style={[styles.mb2, styles.textBlack, styles.input, styles.px2]} secureTextEntry={true} />
+      <TouchableOpacity onPress={login} style={[styles.bgWarning, styles.w100, styles.p1, styles.flexCenter, styles.mb2, styles.px3, { borderRadius: 50 }]}>
+        <Text style={[styles.textBold, styles.fs6]}>{isloading ? <ActivityIndicator color={styles._white} size={"small"} /> : "Login"}</Text>
+      </TouchableOpacity>
+      <View style={[styles.flexRow]}>
+        <Text style={[styles.textWhite, styles.fs6, styles.flexCenter, styles.fs6]}>Are you new here?</Text>
+        <TouchableOpacity onPress={() => { navigation.navigate("Signup") }}><Text style={[styles.mx1, styles.textWarning, styles.textBold, styles.fs6]}>Signup</Text></TouchableOpacity>
+      </View>
+
+    </View>
+  </>
+  )
+}

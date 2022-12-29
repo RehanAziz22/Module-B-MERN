@@ -21,7 +21,20 @@ export default function Van({navigation,route}) {
     }, [])
 
     return (<View style={[styles.h100, styles.p2, , { backgroundColor: "#F6F7FB" }]}>
+<View>
+            <TouchableOpacity 
+                onPress={() => { navigation.navigate("map") }}
+                style={[styles.bgDanger, styles.py2, styles.mb2, styles.shadow4, styles.rounded, styles.flexRow, styles.alignItemsCenter, styles.justifyContentBetween]}>
+                <View style={[styles.w40, styles.justifyContentCenter, styles.alignItemsCenter]}>
+                    <Icon color={styles._white} size={80} name="pin-drop" />
 
+                </View>
+
+                <View style={[styles.w60]}>
+                    <Text style={[styles.textWhite, styles.fs2]}>BOOK NOW</Text>
+                </View>
+            </TouchableOpacity>
+        </View>
         <ScrollView >
             {
                 list.map((e, i) => {

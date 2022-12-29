@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "527873533623",
+    "project_id": "tutors-2002",
+    "storage_bucket": "tutors-2002.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527873533623:android:99705fc966cd51ecb30f32",
+        "android_client_info": {
+          "package_name": "com.pizzabooking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527873533623-05ktaf7fkjvrf1vhtjhbvdj2q8v3r9di.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXG-65-TZ0FaoSLPFTTLvfpGviI9wiTr4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527873533623-05ktaf7fkjvrf1vhtjhbvdj2q8v3r9di.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

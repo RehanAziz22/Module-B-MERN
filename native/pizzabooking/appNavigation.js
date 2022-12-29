@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useEffect, useState } from 'react'
 import database from '@react-native-firebase/database';
+import auth from '@react-native-firebase/auth';
 // import Icon from ''
 // import Product from './singleProduct';
 import SplashScreen from './screens/splashscreen';
@@ -15,16 +16,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Signup from './screens/signup';
 import Home from './screens/home';
 import styles from './screens/style';
-import CreateVehicle from './screens/createVehicle';
-import Bus from './screens/bus';
-import Van from './screens/van';
-import Car from './screens/car';
-import Bike from './screens/bike';
-import VehicleDetails from './screens/vehicleDetails';
-import BookingScreen from './screens/bookingScreen';
-import UserSchedule from './screens/schedule';
+import CreateDeals from './screens/createDeals';
+import OrderScreen from './screens/orderScreen';
+import Search from './screens/search';
 import Profile from './screens/profile';
 import AppMap from './screens/map';
+import Promos from './screens/Promos';
+import BookingScreen from './screens/bookingScreen';
 // import AppMap from './screens/map';
 
 const Tab = createBottomTabNavigator();
@@ -32,16 +30,56 @@ const Stack = createNativeStackNavigator();
 
 const HomeBottomNavigator = () => {
   let [userNav, setUserNav] = useState(true)
-  getData = () => {
-    database().ref('users/').on('value', dt => {
-      let li = Object.values(dt.val());
-      li.filter(x => x.category == "user")
-      setUserNav(false)
-      //   updateStarCount(postElement, data);
-    });
-  }
+  let [profileInfo, setProfileInfo] = useState([])
+
+  // getData = () => {
+  //   database().ref('users/').on('value', dt => {
+  //     let li = Object.values(dt.val())
+  //     li.filter(x => console.log(x.category))
+  //     // let filterUser = li.filter(x => x.id)
+  //     // setProfileInfo([...filterUser])
+  //     // if (profileInfo.category == "admin") {
+  //     //   console.log(profileInfo.category)
+  //     //   setUserNav(true)
+  //     // }
+  //     // else {
+  //     //   console.log(profileInfo.category)
+  //     //   setUserNav(false)
+  //     // }
+  //     //   updateStarCount(postElement, data);
+  //   });
+  // }
+
+  let checkUser = () => {
+    const user = auth().currentUser;
+    if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        // ...
+        var uid = user.uid;
+        // console.log(uid)
+        // setUserId(uid)
+        database().ref('users/').on('value', dt => {
+          let li = Object.values(dt.val())
+          // li.filter(x => console.log(x.id ==uid))
+          let filterUser = li.filter(x => x.id == uid)
+          console.log(filterUser.category)
+          // if (filterUser.category == "admin") {
+          //   console.log(profileInfo.category)
+          //   setUserNav(true)
+          // }
+          // else {
+          //   console.log(profileInfo.category)
+          //   setUserNav(false)
+          // }
+          //   updateStarCount(postElement, data);
+        });
+    } else {
+        // No user is signed in.
+    }
+}
   useEffect(() => {
-    getData()
+    checkUser()
   }, [])
 
   return (
@@ -51,7 +89,7 @@ const HomeBottomNavigator = () => {
         options={{
           // title: 'My home',
           headerStyle: {
-            backgroundColor: styles._danger,
+            backgroundColor: styles._warning,
           },
           headerShown: false,
           headerTintColor: '#fff',
@@ -63,12 +101,12 @@ const HomeBottomNavigator = () => {
           ),
         }}
         component={HomeStackScreen} />
-      <Tab.Screen name="History"
+      {/* <Tab.Screen name="History"
 
         options={{
           title: 'History',
           headerStyle: {
-            backgroundColor: styles._danger,
+            backgroundColor: styles._warning,
 
           },
           headerTintColor: '#fff',
@@ -76,16 +114,16 @@ const HomeBottomNavigator = () => {
             fontWeight: 'bold',
           },
           tabBarIcon: ({ color, size }) => (
-            <Icon name="history" color={color} size={size} />
+            <Icon name="shopping-bag" color={color} size={size} />
           ),
         }}
-        component={Home} />
-      <Tab.Screen name="Schedule"
+        component={Home} /> */}
+      <Tab.Screen name="Search"
 
         options={{
-          title: 'Schedule',
+          title: 'Deals',
           headerStyle: {
-            backgroundColor: styles._danger,
+            backgroundColor: styles._warning,
 
           },
           headerTintColor: '#fff',
@@ -93,31 +131,31 @@ const HomeBottomNavigator = () => {
             fontWeight: 'bold',
           },
           tabBarIcon: ({ color, size }) => (
-            <Icon name="departure-board" color={color} size={size} />
+            <Icon name="search" color={color} size={size} />
           ),
         }}
-        component={UserSchedule} />
-      {userNav && <Tab.Screen name="CreateVehicle"
+        component={Search} />
+      {userNav && <Tab.Screen name="Create Deals"
         options={{
-          title: 'Create Vehicle',
+          title: 'Create Deals',
           headerStyle: {
-            backgroundColor: styles._danger,
+            backgroundColor: styles._warning,
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',
           },
           tabBarIcon: ({ color, size }) => (
-            <Icon name="commute" color={color} size={size} />
+            <Icon name="local-dining" color={color} size={size} />
           ),
         }}
-        component={CreateVehicle} />}
+        component={CreateDeals} />}
       <Tab.Screen name="Profile"
 
         options={{
           title: 'Profile',
           headerStyle: {
-            backgroundColor: styles._danger,
+            backgroundColor: styles._warning,
 
           },
           headerTintColor: '#fff',
@@ -138,10 +176,11 @@ const HomeStackScreen = () => {
     <Stack.Navigator
     >
       <Stack.Screen options={{
-        title: 'MyRideMate',
+        title: '',
         headerStyle: {
-          backgroundColor: styles._danger,
+          backgroundColor: styles._warning,
         },
+        headerShown: false,
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
@@ -149,64 +188,22 @@ const HomeStackScreen = () => {
       }}
         name="Home" component={Home} />
       <Stack.Screen options={{
-        title: 'Bus Booking',
+        title: 'Todays Promo',
         headerStyle: {
-          backgroundColor: styles._danger,
+          backgroundColor: styles._white,
         },
-        headerTintColor: '#fff',
+        headerTintColor: styles._warning,
+
         headerTitleStyle: {
           fontWeight: 'bold',
+
         },
       }}
-        name="Bus" component={Bus} />
-      <Stack.Screen options={{
-        title: 'Bike Booking',
-        headerStyle: {
-          backgroundColor: styles._danger,
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}
-        name="Bike" component={Bike} />
-      <Stack.Screen options={{
-        title: 'Car Booking',
-        headerStyle: {
-          backgroundColor: styles._danger,
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}
-        name="Car" component={Car} />
-      <Stack.Screen options={{
-        title: 'Van Booking',
-        headerStyle: {
-          backgroundColor: styles._danger,
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}
-        name="Van" component={Van} />
+        name="Promos" component={Promos} />
       <Stack.Screen options={{
         title: 'Booking Details',
         headerStyle: {
-          backgroundColor: styles._danger,
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}
-        name="VehicleDetails" component={VehicleDetails} />
-      <Stack.Screen options={{
-        title: 'Ride Booking',
-        headerStyle: {
-          backgroundColor: styles._danger,
+          backgroundColor: styles._warning,
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -214,11 +211,22 @@ const HomeStackScreen = () => {
         },
       }}
         name="BookingScreen" component={BookingScreen} />
+      <Stack.Screen options={{
+        title: 'Order',
+        headerStyle: {
+          backgroundColor: styles._warning,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}
+        name="OrderScreen" component={OrderScreen} />
 
       <Stack.Screen options={{
         title: 'Map',
         headerStyle: {
-          backgroundColor: styles._danger,
+          backgroundColor: styles._warning,
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -258,7 +266,7 @@ function AppNavigation() {
         <Stack.Screen options={{ headerShown: false }} name="BottomNav" component={HomeBottomNavigator} />
         {/* <Stack.Screen name="Home" component={Home} /> */}
         <Stack.Screen options={{ headerShown: false }} name="Signup" component={Signup} />
-        <Stack.Screen name="Bus" component={Bus} />
+        {/* <Stack.Screen name="Promos" component={Promos} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   </>
